@@ -23,7 +23,7 @@ export function Contact() {
       `Phone: ${formData.phone}\n\n` +
       `Message:\n${formData.message}`
     )
-    window.location.href = `mailto:contact@algentrix.com?subject=${subject}&body=${body}`
+    window.location.href = `mailto:chetan.karanjkar@gmail.com?subject=${subject}&body=${body}`
     setFormData({
       firstName: '',
       lastName: '',
