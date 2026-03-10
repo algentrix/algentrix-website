@@ -43,6 +43,26 @@ npm run build
 npm run preview
 ```
 
+## Deploy to algentrix.com
+
+### Netlify (recommended)
+
+1. Go to [netlify.com](https://netlify.com) and sign in
+2. **Add new site** → **Import an existing project**
+3. Connect **GitHub** and select `algentrix/algentrix-website`
+4. Build settings (auto-detected from `netlify.toml`):
+   - **Build command:** `npm run build`
+   - **Publish directory:** `dist`
+5. Click **Deploy site**
+6. To use **algentrix.com**: Site settings → Domain management → Add custom domain → `algentrix.com`
+
+### Vercel
+
+1. Go to [vercel.com](https://vercel.com) and sign in
+2. **Add New** → **Project** → Import `algentrix/algentrix-website`
+3. Deploy (settings auto-detected from `vercel.json`)
+4. Add custom domain `algentrix.com` in Project Settings → Domains
+
 ## Project Structure
 
 ```
