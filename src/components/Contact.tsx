@@ -1,10 +1,8 @@
 import { useState } from 'react'
 import { HiEnvelope } from 'react-icons/hi2'
 
-// Formspree form ID - get yours at https://formspree.io (free, sends to chetan.karanjkar@gmail.com)
-const FORMSPREE_ENDPOINT = import.meta.env.VITE_FORMSPREE_FORM_ID
-  ? `https://formspree.io/f/${import.meta.env.VITE_FORMSPREE_FORM_ID}`
-  : null
+// FormSubmit.co - sends directly to email, no signup. First submission triggers confirmation email.
+const FORMSUBMIT_URL = 'https://formsubmit.co/ajax/chetan.karanjkar@gmail.com'
 
 export function Contact() {
   const [formData, setFormData] = useState({
@@ -25,41 +23,28 @@ export function Contact() {
     e.preventDefault()
     setStatus('sending')
 
-    if (FORMSPREE_ENDPOINT) {
-      try {
-        const res = await fetch(FORMSPREE_ENDPOINT, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            name: `${formData.firstName} ${formData.lastName}`.trim(),
-            email: formData.email,
-            _replyto: formData.email,
-            phone: formData.phone,
-            message: formData.message,
-            _subject: 'Consultation Request from Algentrix Website',
-          }),
-        })
-        if (res.ok) {
-          setFormData({ firstName: '', lastName: '', phone: '', email: '', message: '' })
-          setStatus('success')
-        } else {
-          setStatus('error')
-        }
-      } catch {
+    try {
+      const res = await fetch(FORMSUBMIT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          name: `${formData.firstName} ${formData.lastName}`.trim(),
+          email: formData.email,
+          _replyto: formData.email,
+          phone: formData.phone,
+          message: formData.message,
+          _subject: 'Consultation Request from Algentrix Website',
+        }),
+      })
+      const data = await res.json()
+      if (data.success === true || data.success === 'true' || res.ok) {
+        setFormData({ firstName: '', lastName: '', phone: '', email: '', message: '' })
+        setStatus('success')
+      } else {
         setStatus('error')
       }
-    } else {
-      // Fallback: open mailto
-      const subject = encodeURIComponent('Consultation Request from Algentrix Website')
-      const body = encodeURIComponent(
-        `Name: ${formData.firstName} ${formData.lastName}\n` +
-        `Email: ${formData.email}\n` +
-        `Phone: ${formData.phone}\n\n` +
-        `Message:\n${formData.message}`
-      )
-      window.location.href = `mailto:chetan.karanjkar@gmail.com?subject=${subject}&body=${body}`
-      setFormData({ firstName: '', lastName: '', phone: '', email: '', message: '' })
-      setStatus('idle')
+    } catch {
+      setStatus('error')
     }
   }
 
