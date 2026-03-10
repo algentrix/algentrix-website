@@ -54,16 +54,16 @@ const Testimonials: React.FC = () => {
 
   return (
     <section className="relative py-28 px-8 overflow-hidden bg-[#05060a] text-white">
-      
+
       {/* Gradient Background */}
       <div className="absolute inset-0 bg-gradient-to-br from-black via-[#070b18] to-black opacity-95" />
 
       {/* Abstract wave background */}
-      <img
-        src="/wave-bg.png"
+      {/* <img
+        src="./wave-bg.png"
         alt="background"
         className="absolute right-0 top-0 h-full object-cover opacity-90 pointer-events-none"
-      />
+      /> */}
 
       {/* Glow Effects */}
       <div className="absolute right-[25%] top-[20%] w-[400px] h-[400px] bg-blue-500/20 blur-[140px] rounded-full" />
