@@ -16,7 +16,21 @@ export function Contact() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    console.log('Form submitted:', formData)
+    const subject = encodeURIComponent('Consultation Request from Algentrix Website')
+    const body = encodeURIComponent(
+      `Name: ${formData.firstName} ${formData.lastName}\n` +
+      `Email: ${formData.email}\n` +
+      `Phone: ${formData.phone}\n\n` +
+      `Message:\n${formData.message}`
+    )
+    window.location.href = `mailto:contact@algentrix.com?subject=${subject}&body=${body}`
+    setFormData({
+      firstName: '',
+      lastName: '',
+      phone: '',
+      email: '',
+      message: '',
+    })
   }
 
   return (
