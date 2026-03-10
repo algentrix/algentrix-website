@@ -1,9 +1,9 @@
 export function WhyChooseUs() {
   return (
-    <section className="relative py-24 px-8 overflow-hidden bg-[#05060a] text-white">
+    <section id="about" className="relative py-24 px-8 overflow-hidden text-white">
 
-      {/* Gradient Background */}
-      <div className="absolute inset-0 bg-gradient-to-r from-black via-[#0a0a20] to-black opacity-90" />
+      {/* Gradient overlay - lets global gradient show through */}
+      <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-black/60" />
 
       {/* Glow effects */}
       <div className="absolute left-[30%] top-[20%] w-[400px] h-[400px] bg-purple-500/30 blur-[150px] rounded-full" />
@@ -24,8 +24,8 @@ export function WhyChooseUs() {
           <p className="text-gray-300 leading-relaxed max-w-lg mb-10">
             We are more than just an IT services provider – we are your
             partners in bringing digital transformation to your business.
-            Founded in 2018, our company is a globally recognized,
-            IT Solutions company located in Lahore, Pakistan.
+            Founded in 2026, our company is a globally recognized,
+            IT Solutions company located in India,Pune. We specialize in delivering cutting-edge IT solutions and services to businesses worldwide. With a team of highly skilled professionals and a commitment to excellence, we have established ourselves as a trusted partner for organizations seeking innovative technology solutions. Our comprehensive range of services includes software development, cloud computing, cybersecurity, data analytics, and IT consulting. We pride ourselves on our ability to understand our clients' unique needs and deliver tailored solutions that drive growth and success. At our core, we are dedicated to helping businesses leverage technology to achieve their goals and stay ahead in today's competitive landscape.
           </p>
 
           <button className="flex items-center gap-2 bg-yellow-500 text-black px-6 py-3 rounded-full font-medium hover:scale-105 transition">
@@ -36,14 +36,14 @@ export function WhyChooseUs() {
         {/* RIGHT SIDE IMAGES - Overlapping, stacked collage */}
         <div className="relative h-[420px] flex items-center justify-center ">
           {/* Bottom layer - peeking from behind */}
-         
+
           {/* Middle layer - largest, most prominent */}
           <img
             src="https://images.unsplash.com/photo-1553877522-43269d4ea984"
             className="absolute top-[60%] left-[30%] -translate-x-1/2 -translate-y-1/2 
             w-[320px] h-[240px] object-cover rounded-2xl shadow-xl z-[3]
             [clip-path:polygon(0%_0%,20%_0%,28%_10%,50%_10%,55%_0%,100%_0%,100%_100%,0%_100%)]"
-           
+
           />
           {/* Top layer - partially visible at top right */}
           <img

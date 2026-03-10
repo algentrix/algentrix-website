@@ -7,7 +7,7 @@ import FloatingIcons from "./FloatingIcons";
 const Hero: React.FC = () => {
 
   return (
-    <section className="flex items-center justify-between h-screen bg-[#0b0b0b] text-white p-20" id="home">
+    <section className="flex items-center justify-between h-screen text-white p-20" id="home">
 
       <div className="max-w-[520px]">
         <h1 className="text-[50px] leading-tight">
