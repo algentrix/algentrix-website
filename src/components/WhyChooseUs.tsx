@@ -25,7 +25,9 @@ export function WhyChooseUs() {
             We are more than just an IT services provider – we are your
             partners in bringing digital transformation to your business.
             Founded in 2026, our company is a globally recognized,
-            IT Solutions company located in India,Pune. We specialize in delivering cutting-edge IT solutions and services to businesses worldwide. With a team of highly skilled professionals and a commitment to excellence, we have established ourselves as a trusted partner for organizations seeking innovative technology solutions. Our comprehensive range of services includes software development, cloud computing, cybersecurity, data analytics, and IT consulting. We pride ourselves on our ability to understand our clients' unique needs and deliver tailored solutions that drive growth and success. At our core, we are dedicated to helping businesses leverage technology to achieve their goals and stay ahead in today's competitive landscape.
+            IT Solutions company located in India,Pune.
+          </p><p>
+            We specialize in delivering cutting-edge IT solutions and services to businesses worldwide. With a team of highly skilled professionals and a commitment to excellence, we have established ourselves as a trusted partner for organizations seeking innovative technology solutions. Our comprehensive range of services includes software development, cloud computing, cybersecurity, data analytics, and IT consulting. We pride ourselves on our ability to understand our clients' unique needs and deliver tailored solutions that drive growth and success. At our core, we are dedicated to helping businesses leverage technology to achieve their goals and stay ahead in today's competitive landscape.
           </p>
 
           <button className="flex items-center gap-2 bg-yellow-500 text-black px-6 py-3 rounded-full font-medium hover:scale-105 transition">
