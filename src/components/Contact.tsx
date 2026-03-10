@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { HiEnvelope } from 'react-icons/hi2'
 
 // FormSubmit.co - sends directly to email, no signup. First submission triggers confirmation email.
-const FORMSUBMIT_URL = 'https://formsubmit.co/ajax/chetan.karanjkar@gmail.com'
+const FORMSUBMIT_URL = 'https://formsubmit.co/ajax/contact@algentrix.com'
 
 export function Contact() {
   const [formData, setFormData] = useState({
