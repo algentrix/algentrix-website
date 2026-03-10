@@ -1,0 +1,89 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&display=swap');
+
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Outfit', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --color-bg-dark: #0a0a0f;
+  --color-bg-card: #12121a;
+  --color-bg-card-hover: #1a1a25;
+  --color-accent-green: #00ff88;
+  --color-matrix-green: #00ff41;
+  --color-accent-orange: #ff8c42;
+  --color-cta: #f4c95d;
+  --color-hero-green: #34ff8c;
+  --color-accent-purple: #8b5cf6;
+  --color-accent-blue: #3b82f6;
+  --shadow-glow-green: 0 0 40px rgba(0, 255, 136, 0.3);
+  --shadow-glow-purple: 0 0 80px rgba(139, 92, 246, 0.4);
+  --shadow-glow-orange: 0 10px 30px rgba(255, 140, 66, 0.4);
+  --animate-float: float 4s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+}
+
+@layer base {
+  * {
+    @apply m-0 p-0 box-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply font-sans bg-bg-dark text-white overflow-x-hidden;
+  }
+
+  #app {
+    @apply min-h-screen;
+  }
+
+  a {
+    @apply text-inherit no-underline;
+  }
+
+  button {
+    @apply cursor-pointer border-none;
+  }
+
+  section[id] {
+    scroll-margin-top: 80px;
+  }
+}
+
+/* Hero globe orbit animation (3D transform) */
+@keyframes orbit {
+  from { transform: translate(-50%, -50%) rotateX(60deg) rotateZ(0deg); }
+  to { transform: translate(-50%, -50%) rotateX(60deg) rotateZ(360deg); }
+}
+
+@keyframes orbit-reverse {
+  from { transform: translate(-50%, -50%) rotateX(60deg) rotateZ(360deg); }
+  to { transform: translate(-50%, -50%) rotateX(60deg) rotateZ(0deg); }
+}
+
+.animate-orbit {
+  animation: orbit 8s linear infinite;
+}
+
+.animate-orbit-reverse {
+  animation: orbit-reverse 12s linear infinite;
+}
+
+/* Partners auto-scroll */
+@keyframes scroll-partners {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-scroll-partners {
+  animation: scroll-partners 25s linear infinite;
+}
