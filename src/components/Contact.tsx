@@ -1,6 +1,11 @@
 import { useState } from 'react'
 import { HiEnvelope } from 'react-icons/hi2'
 
+// Formspree form ID - get yours at https://formspree.io (free, sends to chetan.karanjkar@gmail.com)
+const FORMSPREE_ENDPOINT = import.meta.env.VITE_FORMSPREE_FORM_ID
+  ? `https://formspree.io/f/${import.meta.env.VITE_FORMSPREE_FORM_ID}`
+  : null
+
 export function Contact() {
   const [formData, setFormData] = useState({
     firstName: '',
@@ -9,28 +14,53 @@ export function Contact() {
     email: '',
     message: '',
   })
+  const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle')
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }))
+    setStatus('idle')
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    const subject = encodeURIComponent('Consultation Request from Algentrix Website')
-    const body = encodeURIComponent(
-      `Name: ${formData.firstName} ${formData.lastName}\n` +
-      `Email: ${formData.email}\n` +
-      `Phone: ${formData.phone}\n\n` +
-      `Message:\n${formData.message}`
-    )
-    window.location.href = `mailto:chetan.karanjkar@gmail.com?subject=${subject}&body=${body}`
-    setFormData({
-      firstName: '',
-      lastName: '',
-      phone: '',
-      email: '',
-      message: '',
-    })
+    setStatus('sending')
+
+    if (FORMSPREE_ENDPOINT) {
+      try {
+        const res = await fetch(FORMSPREE_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: `${formData.firstName} ${formData.lastName}`.trim(),
+            email: formData.email,
+            _replyto: formData.email,
+            phone: formData.phone,
+            message: formData.message,
+            _subject: 'Consultation Request from Algentrix Website',
+          }),
+        })
+        if (res.ok) {
+          setFormData({ firstName: '', lastName: '', phone: '', email: '', message: '' })
+          setStatus('success')
+        } else {
+          setStatus('error')
+        }
+      } catch {
+        setStatus('error')
+      }
+    } else {
+      // Fallback: open mailto
+      const subject = encodeURIComponent('Consultation Request from Algentrix Website')
+      const body = encodeURIComponent(
+        `Name: ${formData.firstName} ${formData.lastName}\n` +
+        `Email: ${formData.email}\n` +
+        `Phone: ${formData.phone}\n\n` +
+        `Message:\n${formData.message}`
+      )
+      window.location.href = `mailto:chetan.karanjkar@gmail.com?subject=${subject}&body=${body}`
+      setFormData({ firstName: '', lastName: '', phone: '', email: '', message: '' })
+      setStatus('idle')
+    }
   }
 
   return (
@@ -92,8 +122,18 @@ export function Contact() {
             className="py-4 px-5 bg-black/30 border border-white/10 rounded-[10px] text-white text-base placeholder:text-[#a0a0b0] resize-y min-h-[100px]"
             rows={4}
           />
-          <button type="submit" className="py-4 px-8 bg-accent-orange text-bg-dark font-bold rounded-[10px] text-base transition-all hover:-translate-y-0.5 hover:shadow-glow-orange">
-            Request Consultation
+          {status === 'success' && (
+            <p className="text-accent-green text-sm">Thank you! Your message has been sent.</p>
+          )}
+          {status === 'error' && (
+            <p className="text-red-400 text-sm">Something went wrong. Please try again or email us directly.</p>
+          )}
+          <button
+            type="submit"
+            disabled={status === 'sending'}
+            className="py-4 px-8 bg-accent-orange text-bg-dark font-bold rounded-[10px] text-base transition-all hover:-translate-y-0.5 hover:shadow-glow-orange disabled:opacity-70 disabled:cursor-not-allowed"
+          >
+            {status === 'sending' ? 'Sending...' : 'Request Consultation'}
           </button>
         </form>
       </div>
