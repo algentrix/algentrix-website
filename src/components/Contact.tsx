@@ -1,9 +1,6 @@
 import { useState } from 'react'
 import { HiEnvelope } from 'react-icons/hi2'
 
-// FormSubmit.co - sends directly to email, no signup. First submission triggers confirmation email.
-const FORMSUBMIT_URL = 'https://formsubmit.co/ajax/contact@algentrix.com'
-
 export function Contact() {
   const [formData, setFormData] = useState({
     firstName: '',
@@ -24,20 +21,20 @@ export function Contact() {
     setStatus('sending')
 
     try {
-      const res = await fetch(FORMSUBMIT_URL, {
+      const params = new URLSearchParams()
+      params.append('form-name', 'contact')
+      params.append('name', `${formData.firstName} ${formData.lastName}`.trim())
+      params.append('email', formData.email)
+      params.append('phone', formData.phone)
+      params.append('message', formData.message)
+
+      const res = await fetch('/', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({
-          name: `${formData.firstName} ${formData.lastName}`.trim(),
-          email: formData.email,
-          _replyto: formData.email,
-          phone: formData.phone,
-          message: formData.message,
-          _subject: 'Consultation Request from Algentrix Website',
-        }),
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: params.toString(),
       })
-      const data = await res.json()
-      if (data.success === true || data.success === 'true' || res.ok) {
+
+      if (res.ok) {
         setFormData({ firstName: '', lastName: '', phone: '', email: '', message: '' })
         setStatus('success')
       } else {
