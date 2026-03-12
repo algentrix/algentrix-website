@@ -1,42 +1,61 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { HiEnvelope } from 'react-icons/hi2'
+
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xbdzylqr'
+const THANK_YOU_URL = '/thank-you'
+
+const SERVICE_OPTIONS = [
+  'Data Analytics & Dashboards',
+  'Business Intelligence (Power BI / Reporting)',
+  'Data Engineering & Data Warehousing',
+  'Custom Software Development',
+  'System Integration (Tally / Zoho / APIs)',
+  'Process Automation',
+  'IT Consulting',
+  'Other',
+] as const
 
 export function Contact() {
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
+    name: '',
     phone: '',
     email: '',
+    company: '',
+    service: '',
     message: '',
   })
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle')
+  const honeypotRef = useRef<HTMLInputElement>(null)
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }))
     setStatus('idle')
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (honeypotRef.current?.value) return
     setStatus('sending')
 
     try {
-      const params = new URLSearchParams()
-      params.append('form-name', 'contact')
-      params.append('name', `${formData.firstName} ${formData.lastName}`.trim())
-      params.append('email', formData.email)
-      params.append('phone', formData.phone)
-      params.append('message', formData.message)
+      const payload = {
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        company: formData.company,
+        service: formData.service,
+        message: formData.message,
+      }
 
-      const res = await fetch('/', {
+      const res = await fetch(FORMSPREE_ENDPOINT, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: params.toString(),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
       })
 
       if (res.ok) {
-        setFormData({ firstName: '', lastName: '', phone: '', email: '', message: '' })
-        setStatus('success')
+        setFormData({ name: '', phone: '', email: '', company: '', service: '', message: '' })
+        window.location.href = THANK_YOU_URL
       } else {
         setStatus('error')
       }
@@ -64,19 +83,12 @@ export function Contact() {
         </div>
 
         <form className="p-8 bg-bg-card rounded-2xl border border-white/5 flex flex-col gap-4" onSubmit={handleSubmit}>
+          <input type="text" name="_gotcha" ref={honeypotRef} style={{ display: 'none' }} tabIndex={-1} autoComplete="off" />
           <input
             type="text"
-            name="firstName"
-            placeholder="Enter Name"
-            value={formData.firstName}
-            onChange={handleChange}
-            className="py-4 px-5 bg-black/30 border border-white/10 rounded-[10px] text-white text-base placeholder:text-[#a0a0b0]"
-          />
-          <input
-            type="text"
-            name="lastName"
-            placeholder="Enter Last Name"
-            value={formData.lastName}
+            name="name"
+            placeholder="Name"
+            value={formData.name}
             onChange={handleChange}
             className="py-4 px-5 bg-black/30 border border-white/10 rounded-[10px] text-white text-base placeholder:text-[#a0a0b0]"
           />
@@ -96,6 +108,29 @@ export function Contact() {
             onChange={handleChange}
             className="py-4 px-5 bg-black/30 border border-white/10 rounded-[10px] text-white text-base placeholder:text-[#a0a0b0]"
           />
+          <input
+            type="text"
+            name="company"
+            placeholder="Company"
+            value={formData.company}
+            onChange={handleChange}
+            className="py-4 px-5 bg-black/30 border border-white/10 rounded-[10px] text-white text-base placeholder:text-[#a0a0b0]"
+          />
+          <select
+            name="service"
+            value={formData.service}
+            onChange={handleChange}
+            className="py-4 px-5 bg-black/30 border border-white/10 rounded-[10px] text-white text-base placeholder:text-[#a0a0b0] appearance-none cursor-pointer"
+          >
+            <option value="" disabled>
+              Select Service
+            </option>
+            {SERVICE_OPTIONS.map((opt) => (
+              <option key={opt} value={opt} className="bg-bg-card text-white">
+                {opt}
+              </option>
+            ))}
+          </select>
           <textarea
             name="message"
             placeholder="Your Message"
@@ -104,9 +139,6 @@ export function Contact() {
             className="py-4 px-5 bg-black/30 border border-white/10 rounded-[10px] text-white text-base placeholder:text-[#a0a0b0] resize-y min-h-[100px]"
             rows={4}
           />
-          {status === 'success' && (
-            <p className="text-accent-green text-sm">Thank you! Your message has been sent.</p>
-          )}
           {status === 'error' && (
             <p className="text-red-400 text-sm">Something went wrong. Please try again or email us directly.</p>
           )}
