@@ -13,15 +13,15 @@ const testimonials: Testimonial[] = [
   {
     id: 1,
     name: "Lincoln Calzoni",
-    role: "Customer",
+    role: "Operations Director",
     image: "https://randomuser.me/api/portraits/men/32.jpg",
     review:
-      "Exceptional service! Our website's performance and user experience have improved dramatically.",
+      "Exceptional technology consulting. Our systems are now more efficient and our team has clear visibility into operations.",
   },
   {
     id: 2,
     name: "Corey Dorwart",
-    role: "Customer",
+    role: "CTO",
     image: "https://randomuser.me/api/portraits/men/45.jpg",
     review:
       "Professional and efficient. Delivered exactly what we needed on time. Great communication throughout the project.",
@@ -29,10 +29,10 @@ const testimonials: Testimonial[] = [
   {
     id: 3,
     name: "Sarah Mitchell",
-    role: "Customer",
+    role: "Business Owner",
     image: "https://randomuser.me/api/portraits/women/44.jpg",
     review:
-      "Fantastic experience working with the team. The project was delivered smoothly and exceeded expectations.",
+      "Fantastic experience. The team understood our business needs and delivered a solution that exceeded expectations.",
   },
 ];
 
@@ -73,7 +73,7 @@ const Testimonials: React.FC = () => {
 
         {/* Title */}
         <h2 className="text-center text-4xl font-semibold mb-20">
-          What our <span className="text-green-500">client says</span>
+          What our <span className="text-green-500">clients say</span>
         </h2>
 
         {/* Testimonial Cards */}
@@ -88,7 +88,8 @@ const Testimonials: React.FC = () => {
                 <img
                   src={t.image}
                   className="w-12 h-12 rounded-full"
-                  alt={t.name}
+                  alt={`${t.name}, ${t.role} - Algentrix client testimonial`}
+                  loading="lazy"
                 />
                 <div>
                   <p className="font-semibold">{t.name}</p>

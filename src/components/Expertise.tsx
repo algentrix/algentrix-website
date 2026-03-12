@@ -23,7 +23,7 @@ export function Expertise() {
         Industries <span className="text-accent-green">Served</span>
       </h2>
       <p className="text-accent-green text-center mb-12 font-medium">
-        Technology solutions designed for industries shaping tomorrow.
+        Technology solutions for industries that drive growth.
       </p>
       <div className="max-w-[900px] mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
         {industries.map((item, i) => (

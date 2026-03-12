@@ -11,19 +11,20 @@ const Hero: React.FC = () => {
 
       <div className="max-w-[520px]">
         <h1 className="text-[50px] leading-tight">
-          Engineering Intelligent Technology Solutions for <span className="text-hero-green">Modern Businesses</span>
+          Engineering Intelligent Technology Solutions<br />for <span className="text-hero-green">Modern Businesses</span>
         </h1>
 
         <p className="mt-5 text-[#a0a0a0]">
-          Algentrix builds AI‑driven platforms, enterprise software systems, ERP solutions, mobile applications, and custom digital products that help businesses automate operations, unlock insights from data, and scale with confidence.
+          Algentrix designs and builds advanced analytics platforms, enterprise software systems, and custom digital solutions that help organizations streamline operations, unlock insights from their data, and scale efficiently.
+          Our team also provides reliable technical support to keep your systems running smoothly and your business moving forward.
         </p>
 
         <p className="mt-3 text-hero-green font-semibold">
-          Turning Technology Into Business Advantage.
+          Turning Technology into Business Advantage.
         </p>
 
         <a href="#contact" onClick={(e) => { e.preventDefault(); document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }} className="inline-block mt-8 py-3.5 px-7 rounded-full bg-cta border-none font-bold cursor-pointer">
-          Request Consultation →
+          Book a Consultation →
         </a>
       </div>
 

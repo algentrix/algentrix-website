@@ -1,41 +1,42 @@
-import { FaFacebookF, FaTwitter, FaLinkedinIn, FaInstagram } from 'react-icons/fa'
+import { Link } from 'react-router-dom'
+import { FaLinkedinIn } from 'react-icons/fa'
+
+const isExternalLink = (href: string) => href.startsWith('#') || href.startsWith('http')
 
 const servicesLinks = [
-  'AI & Data Analytics',
-  'Custom Software Development',
-  'ERP Solutions',
-  'Mobile App Development',
-  'IT Consulting',
+  { label: 'Data Analytics & Dashboards', href: '#services' },
+  { label: 'Enterprise Software Development', href: '#services' },
+  { label: 'System Integration', href: '#services' },
+  { label: 'Process Automation', href: '#services' },
+  { label: 'Technical Support', href: '#services' },
+  { label: 'Technology Consulting', href: '#services' },
 ]
 
-const companyLinks = ['About Us', 'Careers', 'Contact Us']
+const companyLinks = [
+  { label: 'About Us', href: '/about' },
+  { label: 'Careers', href: '#contact' },
+  { label: 'Contact Us', href: '/contact' },
+]
 
-const legalLinks = ['Terms and Condition', 'Privacy Policy']
+const legalLinks = [
+  { label: 'Terms and Conditions', href: '/terms' },
+  { label: 'Privacy Policy', href: '/privacy-policy' },
+]
 
 export function Footer() {
   return (
     <footer className="py-16 pt-8 px-8 bg-bg-card border-t border-white/5" data-scroll-section>
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[1.5fr_2fr] gap-16">
         <div>
-          <a href="#home" className="font-mono text-lg font-semibold text-matrix-green tracking-tight drop-shadow-[0_0_8px_rgba(0,255,65,0.5)] hover:text-accent-green transition-colors inline-block mb-4">
+          <Link to="/" className="font-mono text-lg font-semibold text-matrix-green tracking-tight drop-shadow-[0_0_8px_rgba(0,255,65,0.5)] hover:text-accent-green transition-colors inline-block mb-4">
             <span className="text-white/90">[</span>Algentrix<span className="text-white/90">]</span>
-          </a>
+          </Link>
           <p className="text-[#a0a0b0] text-[0.95rem] leading-relaxed mb-6 max-w-[320px]">
-            Algentrix builds intelligent digital systems that help organizations 
-            solve complex challenges and unlock new opportunities.
+            Algentrix provides technology consulting, analytics solutions, enterprise software development, and technical support services that help businesses build stronger and more efficient digital systems.
           </p>
           <div className="flex gap-4">
-            <a href="#" className="w-10 h-10 rounded-[10px] bg-white/5 flex items-center justify-center text-[#a0a0b0] transition-all hover:bg-accent-orange hover:text-bg-dark" aria-label="Facebook">
-              <FaFacebookF size={18} />
-            </a>
-            <a href="#" className="w-10 h-10 rounded-[10px] bg-white/5 flex items-center justify-center text-[#a0a0b0] transition-all hover:bg-accent-orange hover:text-bg-dark" aria-label="Twitter">
-              <FaTwitter size={18} />
-            </a>
-            <a href="#" className="w-10 h-10 rounded-[10px] bg-white/5 flex items-center justify-center text-[#a0a0b0] transition-all hover:bg-accent-orange hover:text-bg-dark" aria-label="LinkedIn">
+            <a href="https://linkedin.com/company/algentrix" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-[10px] bg-white/5 flex items-center justify-center text-[#a0a0b0] transition-all hover:bg-accent-orange hover:text-bg-dark" aria-label="LinkedIn">
               <FaLinkedinIn size={18} />
-            </a>
-            <a href="#" className="w-10 h-10 rounded-[10px] bg-white/5 flex items-center justify-center text-[#a0a0b0] transition-all hover:bg-accent-orange hover:text-bg-dark" aria-label="Instagram">
-              <FaInstagram size={18} />
             </a>
           </div>
         </div>
@@ -45,8 +46,8 @@ export function Footer() {
             <h4 className="text-base font-semibold mb-4 text-[#a0a0b0]">Services</h4>
             <ul className="list-none">
               {servicesLinks.map((link) => (
-                <li key={link} className="mb-2">
-                  <a href="#" className="text-[#a0a0b0] text-sm transition-colors hover:text-white">{link}</a>
+                <li key={link.label} className="mb-2">
+                  <a href={link.href} className="text-[#a0a0b0] text-sm transition-colors hover:text-white">{link.label}</a>
                 </li>
               ))}
             </ul>
@@ -55,8 +56,12 @@ export function Footer() {
             <h4 className="text-base font-semibold mb-4 text-[#a0a0b0]">Company</h4>
             <ul className="list-none">
               {companyLinks.map((link) => (
-                <li key={link} className="mb-2">
-                  <a href="#" className="text-[#a0a0b0] text-sm transition-colors hover:text-white">{link}</a>
+                <li key={link.label} className="mb-2">
+                  {isExternalLink(link.href) ? (
+                    <a href={link.href} className="text-[#a0a0b0] text-sm transition-colors hover:text-white">{link.label}</a>
+                  ) : (
+                    <Link to={link.href} className="text-[#a0a0b0] text-sm transition-colors hover:text-white">{link.label}</Link>
+                  )}
                 </li>
               ))}
             </ul>
@@ -65,8 +70,8 @@ export function Footer() {
             <h4 className="text-base font-semibold mb-4 text-[#a0a0b0]">Legal</h4>
             <ul className="list-none">
               {legalLinks.map((link) => (
-                <li key={link} className="mb-2">
-                  <a href="#" className="text-[#a0a0b0] text-sm transition-colors hover:text-white">{link}</a>
+                <li key={link.label} className="mb-2">
+                  <Link to={link.href} className="text-[#a0a0b0] text-sm transition-colors hover:text-white">{link.label}</Link>
                 </li>
               ))}
             </ul>

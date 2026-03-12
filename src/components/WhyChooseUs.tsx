@@ -22,12 +22,11 @@ export function WhyChooseUs() {
           </div>
 
           <p className="text-gray-300 leading-relaxed max-w-lg mb-10">
-            We are more than just an IT services provider – we are your
-            partners in bringing digital transformation to your business.
-            Founded in 2026, our company is a globally recognized,
-            IT Solutions company located in India,Pune.
-          </p><p>
-            We specialize in delivering cutting-edge IT solutions and services to businesses worldwide. With a team of highly skilled professionals and a commitment to excellence, we have established ourselves as a trusted partner for organizations seeking innovative technology solutions. Our comprehensive range of services includes software development, cloud computing, cybersecurity, data analytics, and IT consulting. We pride ourselves on our ability to understand our clients' unique needs and deliver tailored solutions that drive growth and success. At our core, we are dedicated to helping businesses leverage technology to achieve their goals and stay ahead in today's competitive landscape.
+            Algentrix is a technology consulting company focused on helping businesses build reliable, scalable, and efficient digital systems.
+            We combine strong engineering expertise with deep understanding of business operations to deliver solutions that drive measurable results.
+          </p>
+          <p className="text-gray-300 leading-relaxed max-w-lg mb-10">
+            Our mission is simple: Help businesses use technology more effectively to improve efficiency, gain better insights, and support long-term growth.
           </p>
 
           <button className="flex items-center gap-2 bg-yellow-500 text-black px-6 py-3 rounded-full font-medium hover:scale-105 transition">
@@ -42,6 +41,8 @@ export function WhyChooseUs() {
           {/* Middle layer - largest, most prominent */}
           <img
             src="https://images.unsplash.com/photo-1553877522-43269d4ea984"
+            alt="Technology consulting team collaboration at Algentrix"
+            loading="lazy"
             className="absolute top-[60%] left-[30%] -translate-x-1/2 -translate-y-1/2 
             w-[320px] h-[240px] object-cover rounded-2xl shadow-xl z-[3]
             [clip-path:polygon(0%_0%,20%_0%,28%_10%,50%_10%,55%_0%,100%_0%,100%_100%,0%_100%)]"
@@ -50,6 +51,8 @@ export function WhyChooseUs() {
           {/* Top layer - partially visible at top right */}
           <img
             src="https://images.unsplash.com/photo-1551434678-e076c223a692"
+            alt="Business team working on technology solutions"
+            loading="lazy"
             className="absolute top-0 right-[4vw] w-[260px] h-[180px] object-cover rounded-2xl shadow-xl z-[2]"
           />
         </div>

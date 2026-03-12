@@ -4,34 +4,40 @@ import {
   HiCube,
   HiDevicePhoneMobile,
   HiCog6Tooth,
+  HiLightBulb,
 } from 'react-icons/hi2'
 import { HiArrowRight } from 'react-icons/hi'
 
 const services = [
   {
     icon: HiChartBar,
-    title: 'AI & Data Analytics',
-    desc: 'Predictive analytics, business intelligence dashboards, machine learning models, and data engineering pipelines.',
+    title: 'Data Analytics & Dashboards',
+    desc: 'Turn business data into clear insights with powerful dashboards and reporting tools.',
   },
   {
     icon: HiComputerDesktop,
-    title: 'Custom Software Development',
-    desc: 'Custom SaaS platforms, enterprise applications, and workflow automation systems.',
+    title: 'Enterprise Software Development',
+    desc: 'Custom-built software designed to support complex business operations and workflows.',
   },
   {
     icon: HiCube,
-    title: 'ERP Solutions',
-    desc: 'ERP implementation, ERP customization, and business process automation.',
+    title: 'System Integration',
+    desc: 'Connect your business systems such as Tally, ERP platforms, APIs, and internal tools to create a seamless technology ecosystem.',
   },
   {
     icon: HiDevicePhoneMobile,
-    title: 'Mobile Application Development',
-    desc: 'Android enterprise applications, workforce management apps, and logistics and operations apps.',
+    title: 'Process Automation',
+    desc: 'Reduce manual work and improve efficiency by automating key business processes.',
   },
   {
     icon: HiCog6Tooth,
-    title: 'IT Consulting',
-    desc: 'Digital transformation strategy, technology architecture, and system integration.',
+    title: 'Technical Support & Maintenance',
+    desc: 'Reliable technical support to maintain system stability, resolve issues quickly, and ensure continuous business operations.',
+  },
+  {
+    icon: HiLightBulb,
+    title: 'Technology Consulting',
+    desc: 'Expert guidance to help businesses choose, design, and implement the right technology solutions.',
   },
 ]
 

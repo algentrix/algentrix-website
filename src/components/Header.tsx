@@ -49,7 +49,7 @@ export function Header() {
         </nav>
 
         <a href={getNavHref('#contact')} className="hidden md:inline-block py-2.5 px-6 bg-white/[0.08] rounded-lg font-semibold text-sm transition-colors hover:bg-white/[0.15]" onClick={(e) => handleNavClickOrClose(e, '#contact')}>
-          Request Consultation
+          Book a Consultation
         </a>
 
         <button

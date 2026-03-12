@@ -1,4 +1,4 @@
-# Algentrix - Algorithm & Matrix Design
+# Algentrix
 
 A modern one-page website built with React, TypeScript, and Locomotive Scroll for smooth scrolling navigation.
 

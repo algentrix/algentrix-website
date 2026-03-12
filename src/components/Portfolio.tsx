@@ -12,13 +12,13 @@ const solutions = [
   },
   {
     icon: HiChartBarSquare,
-    title: 'Data‑Driven Decision Platforms',
+    title: 'Data-Driven Decision Platforms',
     desc: 'Turn raw data into meaningful insights that support strategic decisions.',
   },
   {
     icon: HiSquare3Stack3D,
     title: 'Scalable Digital Platforms',
-    desc: 'Technology platforms designed for long‑term business growth.',
+    desc: 'Technology platforms designed for long-term business growth.',
   },
 ]
 
@@ -31,7 +31,7 @@ export function Portfolio() {
         Solutions
       </h2>
       <p className="text-accent-green text-center mb-12 font-medium">
-        Intelligent systems designed for real business impact.
+        Technology solutions designed for real business impact.
       </p>
 
       <div className="max-w-[1000px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
