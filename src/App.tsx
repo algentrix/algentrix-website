@@ -14,6 +14,7 @@ import { Footer } from './components/Footer'
 import Testimonials from './components/Testimonials'
 import { ThankYou } from './components/ThankYou'
 import { SEO } from './components/SEO'
+import { Starfield } from './components/Starfield'
 
 const BASE_URL = 'https://algentrix.com'
 
@@ -115,6 +116,7 @@ function AppWithSEO() {
 
   return (
     <>
+      <Starfield />
       <SEO title={seo.title} description={seo.description} canonical={seo.canonical} />
       <Routes>
         <Route path="/" element={<HomePage />} />
