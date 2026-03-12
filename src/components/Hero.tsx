@@ -8,10 +8,10 @@ import FloatingIcons from "./FloatingIcons";
 const Hero: React.FC = () => {
 
   return (
-    <section className="flex items-center justify-between h-screen text-white p-20" id="home">
+    <section className="flex flex-col md:flex-row items-center justify-between min-h-screen text-white pt-24 md:pt-20 p-6 md:p-20 gap-8 md:gap-0" id="home">
 
-      <div className="max-w-[520px]">
-        <h1 className="text-[50px] leading-tight">
+      <div className="order-2 md:order-1 max-w-[520px] w-full">
+        <h1 className="text-[32px] md:text-[50px] leading-tight">
           Engineering Intelligent Technology Solutions<br />for <span className="text-hero-green">Modern Businesses</span>
         </h1>
 
@@ -29,7 +29,7 @@ const Hero: React.FC = () => {
         </a>
       </div>
 
-      <div className="relative w-[550px] h-[550px]">
+      <div className="order-1 md:order-2 relative w-full max-w-[260px] md:max-w-none md:w-[550px] h-[260px] md:h-[550px] flex-shrink-0 mx-auto md:mx-0">
         <div className="absolute inset-0 z-0 w-full h-full">
           <Canvas camera={{ position: [0, 0, 6] }}>
           <Suspense fallback={null}>

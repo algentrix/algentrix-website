@@ -36,7 +36,7 @@ export function Header() {
           <span className="text-white/90">[</span>Algentrix<span className="text-white/90">]</span>
         </Link>
 
-        <nav className={`flex gap-4 fixed top-[60px] left-0 right-0 flex-col py-8 px-8 bg-bg-dark transition-all duration-300 md:static md:flex-row md:py-0 md:px-0 md:bg-transparent md:gap-8 md:translate-y-0 md:opacity-100 md:pointer-events-auto ${!isMenuOpen ? '-translate-y-full opacity-0 pointer-events-none' : 'translate-y-0 opacity-100 pointer-events-auto'}`}>
+        <nav className={`flex gap-6 fixed top-[60px] left-0 right-0 flex-col py-8 px-8 bg-bg-dark border-b border-white/5 shadow-lg transition-all duration-300 md:static md:flex-row md:py-0 md:px-0 md:bg-transparent md:border-0 md:shadow-none md:gap-8 md:translate-y-0 md:opacity-100 md:pointer-events-auto z-[999] ${!isMenuOpen ? '-translate-y-full opacity-0 pointer-events-none' : 'translate-y-0 opacity-100 pointer-events-auto'}`}>
           {navLinks.map((link) => (
             <a
               key={link.href}
@@ -49,16 +49,19 @@ export function Header() {
           ))}
         </nav>
 
-        <AnimatedButton />
+        <div className="hidden md:block">
+          <AnimatedButton />
+        </div>
 
         <button
-          className="md:hidden flex flex-col gap-1.5 bg-transparent"
+          className="md:hidden flex flex-col justify-center gap-1.5 bg-transparent p-2 -mr-2 h-10 w-10"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
-          aria-label="Toggle menu"
+          aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+          aria-expanded={isMenuOpen ? "true" : "false"}
         >
-          <span className="w-6 h-0.5 bg-white" />
-          <span className="w-6 h-0.5 bg-white" />
-          <span className="w-6 h-0.5 bg-white" />
+          <span className={`block w-6 h-0.5 bg-white transition-all duration-300 ${isMenuOpen ? 'rotate-45 translate-y-[5px]' : ''}`} />
+          <span className={`block w-6 h-0.5 bg-white transition-all duration-300 ${isMenuOpen ? 'opacity-0 scale-0' : ''}`} />
+          <span className={`block w-6 h-0.5 bg-white transition-all duration-300 ${isMenuOpen ? '-rotate-45 -translate-y-[5px]' : ''}`} />
         </button>
       </div>
     </header>
