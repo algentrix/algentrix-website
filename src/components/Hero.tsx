@@ -30,18 +30,17 @@ const Hero: React.FC = () => {
       </div>
 
       <div className="relative w-[550px] h-[550px]">
-
-        <FloatingIcons />
-
-        <Canvas camera={{ position: [0, 0, 6] }}>
+        <div className="absolute inset-0 z-0 w-full h-full">
+          <Canvas camera={{ position: [0, 0, 6] }}>
           <Suspense fallback={null}>
             <ambientLight intensity={0.3} />
             <directionalLight  position={[5, 0, 2]} intensity={6}/>
             <Globe />
             <OrbitRings />
           </Suspense>
-        </Canvas>
-
+          </Canvas>
+        </div>
+        <FloatingIcons />
       </div>
 
     </section>

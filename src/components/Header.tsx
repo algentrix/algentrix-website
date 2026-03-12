@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
+import AnimatedButton from './button/AnimatedButton'
 
 const navLinks = [
   { href: '#home', label: 'Home' },
@@ -48,9 +49,7 @@ export function Header() {
           ))}
         </nav>
 
-        <a href={getNavHref('#contact')} className="hidden md:inline-block py-2.5 px-6 bg-white/[0.08] rounded-lg font-semibold text-sm transition-colors hover:bg-white/[0.15]" onClick={(e) => handleNavClickOrClose(e, '#contact')}>
-          Book a Consultation
-        </a>
+        <AnimatedButton />
 
         <button
           className="md:hidden flex flex-col gap-1.5 bg-transparent"

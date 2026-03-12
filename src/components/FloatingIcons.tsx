@@ -6,61 +6,61 @@ import { HiCpuChip, HiChartBarSquare } from "react-icons/hi2"
 const radius = 260
 
 const FloatingIcons: React.FC = () => {
-
   const [angle, setAngle] = useState(0)
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setAngle((prev) => prev + 0.02)
-    }, 80)
-
+      setAngle((prev) => prev + 0.015)
+    }, 50)
     return () => clearInterval(interval)
   }, [])
 
   const getPosition = (offset: number) => {
-    const x = radius * Math.cos(angle + offset)
-    const y = radius * Math.sin(angle + offset)
-    return { x, y }
+    const a = angle + offset
+    return {
+      x: radius * Math.cos(a),
+      y: radius * Math.sin(a),
+    }
   }
 
   return (
-    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-
-      <motion.div
-        className="absolute bg-[#111] p-4 rounded-xl text-white border border-white/10"
-        animate={getPosition(0)}
-      >
+    <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
+      <div className="relative w-0 h-0">
+        <motion.div
+          className="absolute left-1/2 top-1/2 bg-[#111] p-4 rounded-xl text-white border border-white/10 -translate-x-1/2 -translate-y-1/2"
+          animate={getPosition(0)}
+        >
         <FaFigma size={48} />
-      </motion.div>
+        </motion.div>
 
-      <motion.div
-        className="absolute bg-[#111] p-4 rounded-xl text-white border border-white/10"
-        animate={getPosition(1.2)}
-      >
+        <motion.div
+          className="absolute left-1/2 top-1/2 bg-[#111] p-4 rounded-xl text-white border border-white/10 -translate-x-1/2 -translate-y-1/2"
+          animate={getPosition(1.256)}
+        >
         <FaCode size={40} />
-      </motion.div>
+        </motion.div>
 
-      <motion.div
-        className="absolute bg-[#111] p-4 rounded-xl text-white border border-white/10"
-        animate={getPosition(2.4)}
-      >
+        <motion.div
+          className="absolute left-1/2 top-1/2 bg-[#111] p-4 rounded-xl text-white border border-white/10 -translate-x-1/2 -translate-y-1/2"
+          animate={getPosition(2.512)}
+        >
         <FaPaintBrush size={40} />
-      </motion.div>
+        </motion.div>
 
-      <motion.div
-        className="absolute bg-[#111] p-4 rounded-xl text-white border border-white/10"
-        animate={getPosition(3.6)}
-      >
+        <motion.div
+          className="absolute left-1/2 top-1/2 bg-[#111] p-4 rounded-xl text-white border border-white/10 -translate-x-1/2 -translate-y-1/2"
+          animate={getPosition(3.768)}
+        >
         <HiCpuChip size={40} className="text-cyan-400" />
-      </motion.div>
+        </motion.div>
 
-      <motion.div
-        className="absolute bg-[#111] p-4 rounded-xl text-white border border-white/10"
-        animate={getPosition(4.8)}
-      >
-        <HiChartBarSquare size={40} className="text-emerald-400" />
-      </motion.div>
-
+        <motion.div
+          className="absolute left-1/2 top-1/2 bg-[#111] p-4 rounded-xl text-white border border-white/10 -translate-x-1/2 -translate-y-1/2"
+          animate={getPosition(5.024)}
+        >
+          <HiChartBarSquare size={40} className="text-emerald-400" />
+        </motion.div>
+      </div>
     </div>
   )
 }
