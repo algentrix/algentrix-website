@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Canvas } from "@react-three/fiber";
 import { Suspense } from "react";
 import Globe from "./Globe";
@@ -15,8 +16,8 @@ const Hero: React.FC = () => {
         </h1>
 
         <p className="mt-5 text-[#a0a0a0]">
-          Algentrix designs and builds advanced analytics platforms, enterprise software systems, and custom digital solutions that help organizations streamline operations, unlock insights from their data, and scale efficiently.
-          Our team also provides reliable technical support to keep your systems running smoothly and your business moving forward.
+          Algentrix designs and builds advanced <Link to="/services" className="text-hero-green hover:underline">analytics platforms</Link>, enterprise software systems, and custom digital solutions that help organizations streamline operations, unlock insights from their data, and scale efficiently.
+          Our team also provides reliable <Link to="/contact" className="text-hero-green hover:underline">technical support</Link> to keep your systems running smoothly and your business moving forward.
         </p>
 
         <p className="mt-3 text-hero-green font-semibold">

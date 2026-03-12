@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import {
   HiChartBar,
   HiComputerDesktop,
@@ -56,6 +57,10 @@ export function Services() {
           </div>
         ))}
       </div>
+      <p className="text-center mt-12 text-[#a0a0b0]">
+        <Link to="/contact" className="text-accent-orange hover:underline font-medium">Book a consultation</Link>
+        {' '}to discuss your technology consulting and system integration needs.
+      </p>
     </section>
   )
 }

@@ -29,9 +29,9 @@ export function WhyChooseUs() {
             Our mission is simple: Help businesses use technology more effectively to improve efficiency, gain better insights, and support long-term growth.
           </p>
 
-          <button className="flex items-center gap-2 bg-yellow-500 text-black px-6 py-3 rounded-full font-medium hover:scale-105 transition">
+          <a href="/about" className="inline-flex items-center gap-2 bg-yellow-500 text-black px-6 py-3 rounded-full font-medium hover:scale-105 transition">
             Learn More →
-          </button>
+          </a>
         </div>
 
         {/* RIGHT SIDE IMAGES - Overlapping, stacked collage */}
@@ -41,7 +41,7 @@ export function WhyChooseUs() {
           {/* Middle layer - largest, most prominent */}
           <img
             src="https://images.unsplash.com/photo-1553877522-43269d4ea984"
-            alt="Technology consulting team collaboration at Algentrix"
+            alt="Technology consulting and data analytics team collaboration"
             loading="lazy"
             className="absolute top-[60%] left-[30%] -translate-x-1/2 -translate-y-1/2 
             w-[320px] h-[240px] object-cover rounded-2xl shadow-xl z-[3]
@@ -51,7 +51,7 @@ export function WhyChooseUs() {
           {/* Top layer - partially visible at top right */}
           <img
             src="https://images.unsplash.com/photo-1551434678-e076c223a692"
-            alt="Business team working on technology solutions"
+            alt="Business analytics dashboard and reporting system"
             loading="lazy"
             className="absolute top-0 right-[4vw] w-[260px] h-[180px] object-cover rounded-2xl shadow-xl z-[2]"
           />

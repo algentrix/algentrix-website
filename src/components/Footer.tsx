@@ -4,18 +4,18 @@ import { FaLinkedinIn } from 'react-icons/fa'
 const isExternalLink = (href: string) => href.startsWith('#') || href.startsWith('http')
 
 const servicesLinks = [
-  { label: 'Data Analytics & Dashboards', href: '#services' },
-  { label: 'Enterprise Software Development', href: '#services' },
-  { label: 'System Integration', href: '#services' },
-  { label: 'Process Automation', href: '#services' },
-  { label: 'Technical Support', href: '#services' },
-  { label: 'Technology Consulting', href: '#services' },
+  { label: 'Data Analytics & Dashboards', href: '/services' },
+  { label: 'Enterprise Software Development', href: '/services' },
+  { label: 'System Integration', href: '/services' },
+  { label: 'Process Automation', href: '/services' },
+  { label: 'Technical Support', href: '/services' },
+  { label: 'Technology Consulting', href: '/services' },
 ]
 
 const companyLinks = [
   { label: 'About Us', href: '/about' },
   { label: 'Careers', href: '#contact' },
-  { label: 'Contact Us', href: '/contact' },
+  { label: 'Talk to Our Experts', href: '/contact' },
 ]
 
 const legalLinks = [
@@ -32,7 +32,7 @@ export function Footer() {
             <span className="text-white/90">[</span>Algentrix<span className="text-white/90">]</span>
           </Link>
           <p className="text-[#a0a0b0] text-[0.95rem] leading-relaxed mb-6 max-w-[320px]">
-            Algentrix provides technology consulting, analytics solutions, enterprise software development, and technical support services that help businesses build stronger and more efficient digital systems.
+            Algentrix provides technology consulting, data analytics solutions, enterprise software development, system integration services, business automation, and technical support services for modern businesses.
           </p>
           <div className="flex gap-4">
             <a href="https://linkedin.com/company/algentrix" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-[10px] bg-white/5 flex items-center justify-center text-[#a0a0b0] transition-all hover:bg-accent-orange hover:text-bg-dark" aria-label="LinkedIn">
@@ -47,7 +47,7 @@ export function Footer() {
             <ul className="list-none">
               {servicesLinks.map((link) => (
                 <li key={link.label} className="mb-2">
-                  <a href={link.href} className="text-[#a0a0b0] text-sm transition-colors hover:text-white">{link.label}</a>
+                  <Link to={link.href} className="text-[#a0a0b0] text-sm transition-colors hover:text-white">{link.label}</Link>
                 </li>
               ))}
             </ul>

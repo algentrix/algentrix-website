@@ -15,34 +15,43 @@ import Testimonials from './components/Testimonials'
 import { ThankYou } from './components/ThankYou'
 import { SEO } from './components/SEO'
 
-const PAGE_SEO: Record<string, { title: string; description: string }> = {
+const BASE_URL = 'https://algentrix.com'
+
+const PAGE_SEO: Record<string, { title: string; description: string; canonical?: string }> = {
   '/': {
     title: 'Algentrix | Technology Consulting, Analytics & Technical Support',
-    description: 'Helping businesses build powerful technology systems, analytics platforms, and enterprise software while providing reliable technical support.',
+    description: 'Algentrix provides technology consulting, analytics solutions, enterprise software development, system integration, and reliable technical support for modern businesses.',
+    canonical: `${BASE_URL}/`,
   },
   '/services': {
     title: 'Technology Services | Analytics, Software Development & IT Support',
     description: 'Explore Algentrix services including analytics dashboards, enterprise software development, system integration, automation, and technical support.',
+    canonical: `${BASE_URL}/services`,
   },
   '/about': {
     title: 'About Algentrix | Technology Consulting Company',
-    description: 'Learn about Algentrix, a technology consulting company delivering analytics solutions, enterprise software, and technical support for modern businesses.',
+    description: 'Learn about Algentrix, a technology consulting company delivering analytics solutions, enterprise software systems, and technical support services.',
+    canonical: `${BASE_URL}/about`,
   },
   '/contact': {
-    title: 'Contact Algentrix | Request Consultation',
-    description: 'Get in touch with Algentrix to discuss technology consulting, analytics solutions, software development, or technical support services.',
+    title: 'Contact Algentrix | Book a Consultation',
+    description: 'Contact Algentrix to discuss technology consulting, analytics solutions, custom software development, or technical support services.',
+    canonical: `${BASE_URL}/contact`,
   },
   '/thank-you': {
     title: 'Thank You | Algentrix',
     description: 'Thank you for contacting Algentrix. Our team will contact you within 24 hours.',
+    canonical: `${BASE_URL}/thank-you`,
   },
   '/privacy-policy': {
     title: 'Privacy Policy | Algentrix',
     description: 'Privacy policy for Algentrix technology consulting and software services.',
+    canonical: `${BASE_URL}/privacy-policy`,
   },
   '/terms': {
     title: 'Terms and Conditions | Algentrix',
     description: 'Terms and conditions for Algentrix technology consulting and software services.',
+    canonical: `${BASE_URL}/terms`,
   },
 }
 
@@ -106,7 +115,7 @@ function AppWithSEO() {
 
   return (
     <>
-      <SEO title={seo.title} description={seo.description} />
+      <SEO title={seo.title} description={seo.description} canonical={seo.canonical} />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/services" element={<ScrollToSection sectionId="services" />} />

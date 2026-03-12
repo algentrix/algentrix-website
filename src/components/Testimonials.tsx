@@ -1,56 +1,38 @@
-import React, { useState } from "react";
-import { ArrowLeft, ArrowRight, Star } from "lucide-react";
+import React from "react";
+import { Star } from "lucide-react";
 
 type Testimonial = {
   id: number;
   name: string;
   role: string;
   image: string;
+  imageAlt: string;
   review: string;
 };
 
 const testimonials: Testimonial[] = [
   {
     id: 1,
-    name: "Lincoln Calzoni",
-    role: "Operations Director",
-    image: "https://randomuser.me/api/portraits/men/32.jpg",
+    name: "Ashram Kale",
+    role: "Director, Kale Brothers",
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=96&h=96&fit=crop",
+    imageAlt: "Business technology consulting and data analytics collaboration",
     review:
-      "Exceptional technology consulting. Our systems are now more efficient and our team has clear visibility into operations.",
+      "The financial analytics developed on top of our Tally data gave us clear visibility into our business performance. The dashboards and reports helped us make faster financial decisions and improved how we monitor operations across the company.",
   },
   {
     id: 2,
-    name: "Corey Dorwart",
-    role: "CTO",
-    image: "https://randomuser.me/api/portraits/men/45.jpg",
+    name: "Abhijeet Kokate",
+    role: "Founder, Enersoul",
+    image: "https://images.unsplash.com/photo-1551434678-e076c223a692?w=96&h=96&fit=crop",
+    imageAlt: "Professional workspace and technology consulting collaboration",
     review:
-      "Professional and efficient. Delivered exactly what we needed on time. Great communication throughout the project.",
-  },
-  {
-    id: 3,
-    name: "Sarah Mitchell",
-    role: "Business Owner",
-    image: "https://randomuser.me/api/portraits/women/44.jpg",
-    review:
-      "Fantastic experience. The team understood our business needs and delivered a solution that exceeded expectations.",
+      "Their work helped us significantly improve our internal business processes, including payroll management and employee performance tracking. The systems they implemented brought better structure, transparency, and efficiency to our operations.",
   },
 ];
 
 const Testimonials: React.FC = () => {
-  const [index, setIndex] = useState<number>(0);
-
-  const next = () => {
-    setIndex((prev) => (prev + 1) % testimonials.length);
-  };
-
-  const prev = () => {
-    setIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
-  };
-
-  const visibleTestimonials = [
-    testimonials[index],
-    testimonials[(index + 1) % testimonials.length],
-  ];
+  const visibleTestimonials = testimonials;
 
   return (
     <section className="relative py-28 px-8 overflow-hidden bg-[#05060a] text-white">
@@ -87,8 +69,8 @@ const Testimonials: React.FC = () => {
               <div className="flex items-center gap-4 mb-4">
                 <img
                   src={t.image}
-                  className="w-12 h-12 rounded-full"
-                  alt={`${t.name}, ${t.role} - Algentrix client testimonial`}
+                  className="w-12 h-12 rounded-full object-cover"
+                  alt={t.imageAlt}
                   loading="lazy"
                 />
                 <div>
@@ -113,23 +95,6 @@ const Testimonials: React.FC = () => {
             </div>
           ))}
 
-        </div>
-
-        {/* Navigation */}
-        <div className="flex justify-end gap-4 mt-12">
-          <button
-            onClick={prev}
-            className="w-12 h-12 flex items-center justify-center rounded-full border border-white/20 hover:bg-white/10 transition"
-          >
-            <ArrowLeft size={18} />
-          </button>
-
-          <button
-            onClick={next}
-            className="w-12 h-12 flex items-center justify-center rounded-full border border-white/20 hover:bg-white/10 transition"
-          >
-            <ArrowRight size={18} />
-          </button>
         </div>
 
       </div>

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 48" fill="none">
+  <rect x="2" y="2" width="12" height="12" rx="2" stroke="#00ff41" stroke-width="1.5" fill="none"/>
+  <rect x="18" y="2" width="12" height="12" rx="2" stroke="#00ff41" stroke-width="1.5" fill="none"/>
+  <rect x="2" y="18" width="12" height="12" rx="2" stroke="#00ff41" stroke-width="1.5" fill="none"/>
+  <rect x="18" y="18" width="12" height="12" rx="2" stroke="#00ff41" stroke-width="1.5" fill="none"/>
+  <path d="M10 10 L22 22 M22 10 L10 22" stroke="#00ff41" stroke-width="1" opacity="0.6"/>
+  <text x="42" y="30" font-family="system-ui, -apple-system, sans-serif" font-size="20" font-weight="600" fill="#ffffff">Algentrix</text>
+</svg>

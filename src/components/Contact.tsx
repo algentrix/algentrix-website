@@ -72,7 +72,7 @@ export function Contact() {
         <div>
           <h2 className="text-[2.25rem] font-bold mb-4">Ready to improve your technology systems?</h2>
           <p className="text-[#a0a0b0] text-[1.05rem] leading-relaxed mb-8">
-            Let&apos;s discuss how we can help your business grow.
+            Let&apos;s discuss technology consulting, data analytics solutions, enterprise software development, or technical support services for your business.
           </p>
           <div className="flex flex-col gap-4">
             <a href="mailto:contact@algentrix.com" className="flex items-center gap-3 text-[#a0a0b0] transition-colors hover:text-accent-orange">
