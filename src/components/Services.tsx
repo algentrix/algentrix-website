@@ -1,3 +1,4 @@
+import { useRef } from 'react'
 import { Link } from 'react-router-dom'
 import {
   HiChartBar,
@@ -8,6 +9,8 @@ import {
   HiLightBulb,
 } from 'react-icons/hi2'
 import { HiArrowRight } from 'react-icons/hi'
+import { useReveal } from '../hooks/useReveal'
+import { useStagger } from '../hooks/useStagger'
 
 const services = [
   {
@@ -43,21 +46,28 @@ const services = [
 ]
 
 export function Services() {
+  const headingRef = useRef<HTMLDivElement>(null)
+  const gridRef = useRef<HTMLDivElement>(null)
+  useReveal(headingRef, { once: true })
+  useStagger(gridRef, { stagger: 0.08, once: true })
+
   return (
-    <section className="py-24 px-8" data-scroll-section id="services">
-      <h2 className="text-3xl font-bold text-center mb-4">Core Services</h2>
-      <p className="text-accent-green text-center mb-12 font-medium">From Data to Decisions.</p>
-      <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <section className="py-28 md:py-32 px-8" id="services">
+      <div ref={headingRef}>
+        <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 tracking-tight">Core Services</h2>
+        <p className="text-accent-green text-center mb-14 font-medium text-lg">From Data to Decisions.</p>
+      </div>
+      <div ref={gridRef} className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {services.map((service, i) => (
-          <div key={i} className="p-8 bg-bg-card rounded-xl border border-white/5 relative transition-all hover:bg-bg-card-hover hover:-translate-y-1">
-            <service.icon className="text-[#a0a0b0] mb-4" size={28} />
-            <h3 className="text-lg font-semibold mb-3">{service.title}</h3>
-            <p className="text-[#a0a0b0] text-sm leading-relaxed">{service.desc}</p>
+          <div key={i} className="p-8 bg-bg-card rounded-xl border border-white/5 relative transition-all duration-300 ease-out hover:bg-bg-card-hover hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[var(--shadow-card-hover)]">
+            <service.icon className="text-text-muted mb-4" size={28} />
+            <h3 className="text-lg font-semibold mb-3 text-white">{service.title}</h3>
+            <p className="text-text-muted text-sm leading-relaxed">{service.desc}</p>
             <HiArrowRight className="absolute bottom-6 right-6 text-accent-orange" size={20} />
           </div>
         ))}
       </div>
-      <p className="text-center mt-12 text-[#a0a0b0]">
+      <p className="text-center mt-14 text-text-muted">
         <Link to="/contact" className="text-accent-orange hover:underline font-medium">Book a consultation</Link>
         {' '}to discuss your technology consulting and system integration needs.
       </p>

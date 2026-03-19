@@ -7,7 +7,7 @@ const OrbitRings: React.FC = () => {
   const ringRef = useRef<THREE.Mesh>(null!);
 
   useFrame(() => {
-    ringRef.current.rotation.z += 0.002;
+    ringRef.current.rotation.z += 0.001;
   });
 
   return (

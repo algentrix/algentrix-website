@@ -1,6 +1,11 @@
+import { useRef } from 'react'
+import { useReveal } from '../hooks/useReveal'
+
 export function WhyChooseUs() {
+  const ref = useRef<HTMLElement>(null)
+  useReveal(ref, { y: 40, once: true })
   return (
-    <section id="about" className="relative py-24 px-8 overflow-hidden text-white">
+    <section ref={ref} id="about" className="relative py-28 md:py-32 px-8 overflow-hidden text-white">
 
       {/* Gradient overlay - lets global gradient show through */}
       <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-black/60" />
@@ -21,15 +26,15 @@ export function WhyChooseUs() {
             </h2>
           </div>
 
-          <p className="text-gray-300 leading-relaxed max-w-lg mb-10">
+          <p className="text-[#b4b4c4] leading-relaxed max-w-lg mb-10 text-[1.05rem]">
             Algentrix is a technology consulting company focused on helping businesses build reliable, scalable, and efficient digital systems.
             We combine strong engineering expertise with deep understanding of business operations to deliver solutions that drive measurable results.
           </p>
-          <p className="text-gray-300 leading-relaxed max-w-lg mb-10">
+          <p className="text-[#b4b4c4] leading-relaxed max-w-lg mb-10 text-[1.05rem]">
             Our mission is simple: Help businesses use technology more effectively to improve efficiency, gain better insights, and support long-term growth.
           </p>
 
-          <a href="/about" className="inline-flex items-center gap-2 bg-yellow-500 text-black px-6 py-3 rounded-full font-medium hover:scale-105 transition">
+          <a href="/about" className="inline-flex items-center gap-2 btn-gradient text-bg-dark px-6 py-3 rounded-full font-semibold hover:scale-105 transition-all duration-300">
             Learn More →
           </a>
         </div>

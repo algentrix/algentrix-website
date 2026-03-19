@@ -8,6 +8,7 @@ import { Services } from './components/Services'
 import { Portfolio } from './components/Portfolio'
 import { Expertise } from './components/Expertise'
 import { EngineeringApproach } from './components/EngineeringApproach'
+import { Showcase } from './components/Showcase'
 import { Support } from './components/Support'
 import { Contact } from './components/Contact'
 import { Footer } from './components/Footer'
@@ -65,6 +66,7 @@ function HomePage() {
         <Partners />
         <WhyChooseUs />
         <Services />
+        <Showcase />
         <Portfolio />
         <Expertise />
         <EngineeringApproach />
@@ -102,7 +104,7 @@ function LegalPage({ title, content }: { title: string; content: string }) {
       <main className="min-h-screen py-32 px-8">
         <div className="max-w-3xl mx-auto">
           <h1 className="text-3xl font-bold mb-8">{title}</h1>
-          <p className="text-[#a0a0b0] leading-relaxed">{content}</p>
+          <p className="text-text-muted leading-relaxed">{content}</p>
         </div>
       </main>
       <Footer />

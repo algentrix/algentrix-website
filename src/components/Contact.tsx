@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react'
 import { HiEnvelope } from 'react-icons/hi2'
+import { useReveal } from '../hooks/useReveal'
 
 const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xbdzylqr'
 const THANK_YOU_URL = '/thank-you'
@@ -64,18 +65,20 @@ export function Contact() {
     }
   }
 
+  const ref = useRef<HTMLElement>(null)
+  useReveal(ref, { once: true })
   return (
-    <section className="py-24 px-8 relative overflow-hidden" data-scroll-section id="contact">
+    <section ref={ref} className="py-28 md:py-32 px-8 relative overflow-hidden" id="contact">
       <div className="absolute w-[500px] h-[500px] rounded-full blur-[120px] opacity-35 pointer-events-none top-1/2 -right-36 -translate-y-1/2 bg-gradient-to-br from-accent-purple/40 via-accent-blue/30 to-accent-orange/20" />
 
       <div className="max-w-[1100px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-start relative">
         <div>
-          <h2 className="text-[2.25rem] font-bold mb-4">Ready to improve your technology systems?</h2>
-          <p className="text-[#a0a0b0] text-[1.05rem] leading-relaxed mb-8">
+          <h2 className="text-[2.25rem] md:text-[2.5rem] font-bold mb-5 tracking-tight">Ready to improve your technology systems?</h2>
+          <p className="text-text-muted text-[1.05rem] leading-relaxed mb-8">
             Let&apos;s discuss technology consulting, data analytics solutions, enterprise software development, or technical support services for your business.
           </p>
           <div className="flex flex-col gap-4">
-            <a href="mailto:contact@algentrix.com" className="flex items-center gap-3 text-[#a0a0b0] transition-colors hover:text-accent-orange">
+            <a href="mailto:contact@algentrix.com" className="flex items-center gap-3 text-text-muted transition-colors hover:text-accent-orange">
               <HiEnvelope size={20} />
               <span>contact@algentrix.com</span>
             </a>
@@ -90,7 +93,7 @@ export function Contact() {
             placeholder="Name"
             value={formData.name}
             onChange={handleChange}
-            className="py-4 px-5 bg-black/30 border border-white/10 rounded-[10px] text-white text-base placeholder:text-[#a0a0b0]"
+            className="py-4 px-5 bg-black/30 border border-white/10 rounded-[10px] text-white text-base placeholder:text-text-muted-soft"
           />
           <input
             type="tel"
@@ -98,7 +101,7 @@ export function Contact() {
             placeholder="Phone"
             value={formData.phone}
             onChange={handleChange}
-            className="py-4 px-5 bg-black/30 border border-white/10 rounded-[10px] text-white text-base placeholder:text-[#a0a0b0]"
+            className="py-4 px-5 bg-black/30 border border-white/10 rounded-[10px] text-white text-base placeholder:text-text-muted-soft"
           />
           <input
             type="email"
@@ -106,7 +109,7 @@ export function Contact() {
             placeholder="Email"
             value={formData.email}
             onChange={handleChange}
-            className="py-4 px-5 bg-black/30 border border-white/10 rounded-[10px] text-white text-base placeholder:text-[#a0a0b0]"
+            className="py-4 px-5 bg-black/30 border border-white/10 rounded-[10px] text-white text-base placeholder:text-text-muted-soft"
           />
           <input
             type="text"
@@ -114,13 +117,13 @@ export function Contact() {
             placeholder="Company"
             value={formData.company}
             onChange={handleChange}
-            className="py-4 px-5 bg-black/30 border border-white/10 rounded-[10px] text-white text-base placeholder:text-[#a0a0b0]"
+            className="py-4 px-5 bg-black/30 border border-white/10 rounded-[10px] text-white text-base placeholder:text-text-muted-soft"
           />
           <select
             name="service"
             value={formData.service}
             onChange={handleChange}
-            className="py-4 px-5 bg-black/30 border border-white/10 rounded-[10px] text-white text-base placeholder:text-[#a0a0b0] appearance-none cursor-pointer"
+            className="py-4 px-5 bg-black/30 border border-white/10 rounded-[10px] text-white text-base appearance-none cursor-pointer"
           >
             <option value="" disabled>
               Select Service
@@ -136,7 +139,7 @@ export function Contact() {
             placeholder="Your Message"
             value={formData.message}
             onChange={handleChange}
-            className="py-4 px-5 bg-black/30 border border-white/10 rounded-[10px] text-white text-base placeholder:text-[#a0a0b0] resize-y min-h-[100px]"
+            className="py-4 px-5 bg-black/30 border border-white/10 rounded-[10px] text-white text-base placeholder:text-text-muted-soft resize-y min-h-[100px]"
             rows={4}
           />
           {status === 'error' && (
@@ -145,7 +148,7 @@ export function Contact() {
           <button
             type="submit"
             disabled={status === 'sending'}
-            className="py-4 px-8 bg-accent-orange text-bg-dark font-bold rounded-[10px] text-base transition-all hover:-translate-y-0.5 hover:shadow-glow-orange disabled:opacity-70 disabled:cursor-not-allowed"
+            className="py-4 px-8 btn-gradient text-bg-dark font-bold rounded-[10px] text-base transition-all hover:-translate-y-0.5 disabled:opacity-70 disabled:cursor-not-allowed"
           >
             {status === 'sending' ? 'Sending...' : 'Book a Consultation'}
           </button>

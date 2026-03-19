@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Star } from "lucide-react";
+import { useReveal } from "../hooks/useReveal";
+import { useStagger } from "../hooks/useStagger";
 
 type Testimonial = {
   id: number;
@@ -33,9 +35,13 @@ const testimonials: Testimonial[] = [
 
 const Testimonials: React.FC = () => {
   const visibleTestimonials = testimonials;
+  const headingRef = useRef<HTMLHeadingElement>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
+  useReveal(headingRef, { once: true });
+  useStagger(gridRef, { stagger: 0.1, once: true });
 
   return (
-    <section className="relative py-28 px-8 overflow-hidden bg-[#05060a] text-white">
+    <section className="relative py-28 md:py-32 px-8 overflow-hidden bg-[#05060a] text-white">
 
       {/* Gradient Background */}
       <div className="absolute inset-0 bg-gradient-to-br from-black via-[#070b18] to-black opacity-95" />
@@ -54,17 +60,17 @@ const Testimonials: React.FC = () => {
       <div className="relative max-w-6xl mx-auto">
 
         {/* Title */}
-        <h2 className="text-center text-4xl font-semibold mb-20">
+        <h2 ref={headingRef} className="text-center text-3xl md:text-4xl font-bold tracking-tight mb-20">
           What our <span className="text-green-500">clients say</span>
         </h2>
 
         {/* Testimonial Cards */}
-        <div className="grid md:grid-cols-2 gap-10">
+        <div ref={gridRef} className="grid md:grid-cols-2 gap-10">
 
           {visibleTestimonials.map((t) => (
             <div
               key={t.id}
-              className="relative p-8 rounded-xl bg-white/5 backdrop-blur-xl border border-white/10"
+              className="relative p-8 rounded-xl bg-white/5 backdrop-blur-xl border border-white/10 transition-all duration-300 ease-out hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[var(--shadow-card-hover)]"
             >
               <div className="flex items-center gap-4 mb-4">
                 <img
@@ -79,7 +85,7 @@ const Testimonials: React.FC = () => {
                 </div>
               </div>
 
-              <p className="text-gray-300 text-sm leading-relaxed mb-6">
+              <p className="text-text-muted text-sm leading-relaxed mb-6">
                 {t.review}
               </p>
 

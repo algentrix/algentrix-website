@@ -18,15 +18,27 @@
   --color-hero-green: #34ff8c;
   --color-accent-purple: #8b5cf6;
   --color-accent-blue: #3b82f6;
+  --color-text-muted: #b4b4c4;
+  --color-text-muted-soft: #9a9aac;
   --shadow-glow-green: 0 0 40px rgba(0, 255, 136, 0.3);
   --shadow-glow-purple: 0 0 80px rgba(139, 92, 246, 0.4);
   --shadow-glow-orange: 0 10px 30px rgba(255, 140, 66, 0.4);
+  --shadow-card-hover: 0 12px 28px -8px rgba(0, 0, 0, 0.5);
   --animate-float: float 4s ease-in-out infinite;
 }
 
 @keyframes float {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-15px); }
+}
+
+@keyframes floating {
+  0%, 100% { transform: translate(0, 0); opacity: 0.5; }
+  50% { transform: translate(8px, -12px); opacity: 0.8; }
+}
+
+.animate-floating {
+  animation: floating 6s ease-in-out infinite;
 }
 
 @keyframes gradient-shift {
@@ -140,4 +152,19 @@
 
 .animate-scroll-partners {
   animation: scroll-partners 25s linear infinite;
+}
+
+/* Gradient accents */
+.btn-gradient {
+  background: linear-gradient(135deg, #ff8c42 0%, #f4c95d 100%);
+}
+.btn-gradient:hover {
+  background: linear-gradient(135deg, #ff9a5a 0%, #f5d06d 100%);
+  box-shadow: 0 4px 20px rgba(255, 140, 66, 0.35);
+}
+.text-gradient-accent {
+  background: linear-gradient(135deg, #00ff88 0%, #34ff8c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }

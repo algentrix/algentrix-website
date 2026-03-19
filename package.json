@@ -23,7 +23,7 @@
     "@react-three/fiber": "^9.5.0",
     "@tailwindcss/postcss": "^4.2.1",
     "@types/locomotive-scroll": "^4.1.4",
-    "framer-motion": "^12.35.1",
+    "gsap": "^3.14.2",
     "locomotive-scroll": "^4.1.4",
     "lucide-react": "^0.577.0",
     "react": "^19.2.4",
