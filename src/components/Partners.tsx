@@ -24,28 +24,30 @@ export function Partners() {
     initGSAP()
 
     const track = trackRef.current
+    const isMobile = window.innerWidth < 768
 
     const getWidth = () => track.scrollWidth / 2
 
     const ctx = gsap.context(() => {
-      // 🔁 Auto scroll
+      // 🔁 Auto scroll (slower on mobile for smoother feel)
       tweenRef.current = gsap.to(track, {
         x: () => -getWidth(),
-        duration: 25,
+        duration: isMobile ? 40 : 25,
         ease: 'none',
         repeat: -1,
       })
 
       // 🖱️ Draggable with inertia
+      const resume = () => tweenRef.current?.resume()
       Draggable.create(track, {
         type: 'x',
         inertia: true,
+        allowNativeTouchScrolling: true,
         onPress() {
           tweenRef.current?.pause()
         },
-        onRelease() {
-          tweenRef.current?.resume()
-        },
+        onRelease: resume,
+        onThrowComplete: resume,
         onDrag() {
           gsap.set(track, { x: this.x })
         },

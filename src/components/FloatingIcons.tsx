@@ -31,7 +31,7 @@ const FloatingIcons: React.FC = () => {
     if (icons.length === 0) return
 
     const angleObj = { angle: 0 }
-    const duration = isMobile ? 14 : 12
+    const duration = isMobile ? 22 : 18
 
     const tween = gsap.to(angleObj, {
       angle: Math.PI * 2,

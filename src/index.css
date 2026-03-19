@@ -38,7 +38,7 @@
 }
 
 .animate-floating {
-  animation: floating 6s ease-in-out infinite;
+  animation: floating 10s ease-in-out infinite;
 }
 
 @keyframes gradient-shift {

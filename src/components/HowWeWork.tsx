@@ -59,7 +59,7 @@ export function HowWeWork() {
           trigger: section,
           start: 'top 85%',
           end: isDesktop ? 'top 25%' : 'top 40%',
-          scrub: 1.2,
+          scrub: isDesktop ? 1.2 : 2,
           invalidateOnRefresh: true,
           fastScrollEnd: true,
         },
@@ -95,7 +95,7 @@ export function HowWeWork() {
       stepEls.forEach((el, i) => {
         const icon = iconEls[i]
         const pos = isDesktop ? activationPositions[i] : i * 0.2
-        const duration = isDesktop ? 0.15 : 0.2
+        const duration = isDesktop ? 0.15 : 0.32
 
         tl.to(el, { opacity: 1, scale: 1, duration, ease: 'power2.out' }, pos)
         if (icon && isDesktop) {

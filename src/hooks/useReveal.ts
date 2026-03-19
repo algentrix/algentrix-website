@@ -33,6 +33,9 @@ const DEFAULT_OPTIONS: Required<UseRevealOptions> = {
  * Fade + upward reveal animation triggered on scroll.
  * Cleans up ScrollTrigger and tweens on unmount.
  */
+const isMobile = () => typeof window !== 'undefined' && window.innerWidth < 768
+const MOBILE_DURATION_MULTIPLIER = 1.6
+
 export function useReveal<T extends HTMLElement>(
   ref: RefObject<T | null>,
   options: UseRevealOptions = {}
@@ -46,6 +49,7 @@ export function useReveal<T extends HTMLElement>(
     if (!el) return
 
     initGSAP()
+    const duration = isMobile() ? opts.duration * MOBILE_DURATION_MULTIPLIER : opts.duration
 
     const ctx = gsap.context(() => {
       gsap.fromTo(
@@ -54,7 +58,7 @@ export function useReveal<T extends HTMLElement>(
         {
           y: 0,
           opacity: 1,
-          duration: opts.duration,
+          duration,
           delay: opts.delay,
           ease: opts.ease as gsap.EaseString,
           scrollTrigger: {

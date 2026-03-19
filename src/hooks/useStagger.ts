@@ -36,6 +36,9 @@ const DEFAULT_OPTIONS: Required<Omit<UseStaggerOptions, 'selector'>> & Pick<UseS
  * Animate a list of elements with stagger effect on scroll.
  * Targets container's children (or selector). Cleans up on unmount.
  */
+const isMobile = () => typeof window !== 'undefined' && window.innerWidth < 768
+const MOBILE_DURATION_MULTIPLIER = 1.6
+
 export function useStagger<T extends HTMLElement>(
   ref: RefObject<T | null>,
   options: UseStaggerOptions = {}
@@ -49,6 +52,8 @@ export function useStagger<T extends HTMLElement>(
     if (!el) return
 
     initGSAP()
+    const duration = isMobile() ? opts.duration * MOBILE_DURATION_MULTIPLIER : opts.duration
+    const stagger = isMobile() ? opts.stagger * MOBILE_DURATION_MULTIPLIER : opts.stagger
 
     const targets = opts.selector ? el.querySelectorAll<HTMLElement>(opts.selector) : el.children
 
@@ -61,9 +66,9 @@ export function useStagger<T extends HTMLElement>(
         {
           y: 0,
           opacity: 1,
-          duration: opts.duration,
+          duration,
           delay: opts.delay,
-          stagger: opts.stagger,
+          stagger,
           ease: 'power3.out',
           scrollTrigger: {
             trigger: el,

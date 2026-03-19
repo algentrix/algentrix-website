@@ -28,17 +28,19 @@ const Hero: React.FC = () => {
 
     initGSAP();
 
+    const isMobile = window.innerWidth < 768;
+    const mult = isMobile ? 1.6 : 1;
     const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
 
     const words = heading.querySelectorAll(".hero-word");
     tl.fromTo(
       words,
       { y: 30, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.5, stagger: 0.06 }
+      { y: 0, opacity: 1, duration: 0.5 * mult, stagger: 0.06 * mult }
     )
-      .fromTo(subheading, { opacity: 0 }, { opacity: 1, duration: 0.5 }, "-=0.2")
-      .fromTo(tagline, { opacity: 0 }, { opacity: 1, duration: 0.4 }, "-=0.3")
-      .fromTo(cta, { scale: 0.8, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4 }, "-=0.2");
+      .fromTo(subheading, { opacity: 0 }, { opacity: 1, duration: 0.5 * mult }, "-=0.2")
+      .fromTo(tagline, { opacity: 0 }, { opacity: 1, duration: 0.4 * mult }, "-=0.3")
+      .fromTo(cta, { scale: 0.8, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4 * mult }, "-=0.2");
 
     return () => {
       tl.kill();
