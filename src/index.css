@@ -144,6 +144,14 @@
   animation: orbit-reverse 12s linear infinite;
 }
 
+/* Trusted by - fade edges */
+.trusted-by-fade-left {
+  background: linear-gradient(to right, var(--color-bg-dark) 0%, transparent 100%);
+}
+.trusted-by-fade-right {
+  background: linear-gradient(to left, var(--color-bg-dark) 0%, transparent 100%);
+}
+
 /* Partners auto-scroll */
 @keyframes scroll-partners {
   0% { transform: translateX(0); }
@@ -168,3 +176,12 @@
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
+/* Hero gradient text highlight (premium SaaS) */
+.hero-gradient-text {
+  background: linear-gradient(135deg, #34ff8c 0%, #00ff88 50%, #22d9ee 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+

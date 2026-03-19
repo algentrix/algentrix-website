@@ -1,6 +1,7 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { HiEnvelope } from 'react-icons/hi2'
-import { useReveal } from '../hooks/useReveal'
+import gsap from 'gsap'
+import { initGSAP } from '../lib/gsap'
 
 const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xbdzylqr'
 const THANK_YOU_URL = '/thank-you'
@@ -66,26 +67,61 @@ export function Contact() {
   }
 
   const ref = useRef<HTMLElement>(null)
-  useReveal(ref, { once: true })
+  const contentRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (typeof window === 'undefined' || !contentRef.current || !ref.current) return
+    initGSAP()
+    const el = contentRef.current
+    const section = ref.current
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        el,
+        { scale: 0.95, opacity: 0 },
+        {
+          scale: 1,
+          opacity: 1,
+          duration: 0.8,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: section,
+            start: 'top 85%',
+            end: 'bottom 15%',
+            toggleActions: 'play none none none',
+            invalidateOnRefresh: true,
+            fastScrollEnd: true,
+          },
+        }
+      )
+    }, section)
+    return () => ctx.revert()
+  }, [])
+
   return (
     <section ref={ref} className="py-28 md:py-32 px-8 relative overflow-hidden" id="contact">
-      <div className="absolute w-[500px] h-[500px] rounded-full blur-[120px] opacity-35 pointer-events-none top-1/2 -right-36 -translate-y-1/2 bg-gradient-to-br from-accent-purple/40 via-accent-blue/30 to-accent-orange/20" />
+      <div className="absolute inset-0 bg-gradient-to-br from-accent-green/15 via-accent-purple/20 to-accent-blue/15" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_30%,rgba(0,255,136,0.15),transparent_50%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_60%_at_80%_70%,rgba(139,92,246,0.12),transparent_50%)]" />
+      <div className="absolute inset-0 border-y border-accent-green/20" />
 
-      <div className="max-w-[1100px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-start relative">
+      <div ref={contentRef} className="max-w-[1100px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-start relative z-10">
         <div>
-          <h2 className="text-[2.25rem] md:text-[2.5rem] font-bold mb-5 tracking-tight">Ready to improve your technology systems?</h2>
-          <p className="text-text-muted text-[1.05rem] leading-relaxed mb-8">
-            Let&apos;s discuss technology consulting, data analytics solutions, enterprise software development, or technical support services for your business.
+          <h2 className="text-[2.25rem] md:text-[3rem] font-bold mb-5 tracking-tight text-white">
+            Let&apos;s Build Something <span className="hero-gradient-text">Great Together</span>
+          </h2>
+          <p className="text-white/90 text-lg leading-relaxed mb-8">
+            Ready to transform your business with the right technology? Start with a free, no-obligation call.
           </p>
-          <div className="flex flex-col gap-4">
-            <a href="mailto:contact@algentrix.com" className="flex items-center gap-3 text-text-muted transition-colors hover:text-accent-orange">
-              <HiEnvelope size={20} />
-              <span>contact@algentrix.com</span>
-            </a>
-          </div>
+          <a
+            href="mailto:contact@algentrix.com"
+            className="inline-flex items-center gap-3 py-4 px-6 rounded-xl bg-white/5 border border-white/10 text-white font-medium transition-all hover:bg-accent-green/10 hover:border-accent-green/30 hover:text-accent-green"
+          >
+            <HiEnvelope size={22} />
+            <span>contact@algentrix.com</span>
+          </a>
         </div>
 
-        <form className="p-8 bg-bg-card rounded-2xl border border-white/5 flex flex-col gap-4" onSubmit={handleSubmit}>
+        <form className="p-8 bg-bg-card/95 backdrop-blur-sm rounded-2xl border border-white/10 flex flex-col gap-4 shadow-[0_0_40px_rgba(0,0,0,0.3)]" onSubmit={handleSubmit}>
           <input type="text" name="_gotcha" ref={honeypotRef} style={{ display: 'none' }} tabIndex={-1} autoComplete="off" />
           <input
             type="text"

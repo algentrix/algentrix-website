@@ -2,9 +2,11 @@ import { useEffect } from 'react'
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 import { Header } from './components/Header'
 import Hero from './components/Hero'
+import { Problem } from './components/Problem'
 import { Partners } from './components/Partners'
 import { HowWeWork } from './components/HowWeWork'
 import { Services } from './components/Services'
+import { CaseStudies } from './components/CaseStudies'
 import { Portfolio } from './components/Portfolio'
 import { Expertise } from './components/Expertise'
 import { EngineeringApproach } from './components/EngineeringApproach'
@@ -63,9 +65,11 @@ function HomePage() {
       <Header />
       <main>
         <Hero />
+        <Problem />
         <Partners />
         <HowWeWork />
         <Services />
+        <CaseStudies />
         <Showcase />
         <Portfolio />
         <Expertise />
