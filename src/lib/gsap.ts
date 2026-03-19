@@ -1,18 +1,20 @@
 import { useLayoutEffect } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { Draggable } from 'gsap/Draggable'
+import { InertiaPlugin } from 'gsap/InertiaPlugin'
 
 let isRegistered = false
 
 /**
- * Registers GSAP plugins (ScrollTrigger) safely.
+ * Registers GSAP plugins safely.
  * Safe for SSR - only runs in browser.
  */
 function registerPlugins(): void {
   if (typeof window === 'undefined') return
   if (isRegistered) return
 
-  gsap.registerPlugin(ScrollTrigger)
+  gsap.registerPlugin(ScrollTrigger, Draggable, InertiaPlugin)
   isRegistered = true
 }
 

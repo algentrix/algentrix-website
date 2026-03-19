@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 import { Header } from './components/Header'
 import Hero from './components/Hero'
 import { Partners } from './components/Partners'
-import { WhyChooseUs } from './components/WhyChooseUs'
+import { HowWeWork } from './components/HowWeWork'
 import { Services } from './components/Services'
 import { Portfolio } from './components/Portfolio'
 import { Expertise } from './components/Expertise'
@@ -64,7 +64,7 @@ function HomePage() {
       <main>
         <Hero />
         <Partners />
-        <WhyChooseUs />
+        <HowWeWork />
         <Services />
         <Showcase />
         <Portfolio />
