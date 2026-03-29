@@ -3,13 +3,9 @@ import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 import { Header } from './components/Header'
 import Hero from './components/Hero'
 import { Problem } from './components/Problem'
-import { Partners } from './components/Partners'
 import { HowWeWork } from './components/HowWeWork'
 import { Services } from './components/Services'
 import { CaseStudies } from './components/CaseStudies'
-import { Portfolio } from './components/Portfolio'
-import { Expertise } from './components/Expertise'
-import { EngineeringApproach } from './components/EngineeringApproach'
 import { Showcase } from './components/Showcase'
 import { Support } from './components/Support'
 import { Contact } from './components/Contact'
@@ -18,6 +14,9 @@ import Testimonials from './components/Testimonials'
 import { ThankYou } from './components/ThankYou'
 import { SEO } from './components/SEO'
 import { Starfield } from './components/Starfield'
+import { Stats } from './components/Stats'
+import { AgCustomCursor, AgMarquee } from './components/ag'
+import { ScrollProgress } from './components/ScrollProgress'
 
 const BASE_URL = 'https://algentrix.com'
 
@@ -65,15 +64,13 @@ function HomePage() {
       <Header />
       <main>
         <Hero />
+        <AgMarquee />
+        <Stats />
         <Problem />
-        <Partners />
         <HowWeWork />
         <Services />
         <CaseStudies />
         <Showcase />
-        <Portfolio />
-        <Expertise />
-        <EngineeringApproach />
         <Support />
         <Testimonials />
         <Contact />
@@ -122,7 +119,9 @@ function AppWithSEO() {
 
   return (
     <>
+      <AgCustomCursor />
       <Starfield />
+      <ScrollProgress />
       <SEO title={seo.title} description={seo.description} canonical={seo.canonical} />
       <Routes>
         <Route path="/" element={<HomePage />} />

@@ -41,7 +41,7 @@ export function Support() {
       </div>
       <div ref={gridRef} className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 relative">
         {supportTiers.map((tier, i) => (
-          <div key={i} className="p-8 bg-bg-card rounded-xl border border-white/5 transition-all duration-300 ease-out hover:bg-bg-card-hover hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[var(--shadow-card-hover)]">
+          <div key={i} className="p-6 md:p-8 bg-bg-card rounded-xl border border-white/5 transition-all duration-300 ease-out hover:bg-bg-card-hover hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[var(--shadow-card-hover)]">
             <tier.icon className="text-text-muted mb-4" size={32} />
             <h3 className="text-lg font-semibold mb-3 text-white">{tier.title}</h3>
             <p className="text-text-muted text-sm leading-relaxed">{tier.desc}</p>

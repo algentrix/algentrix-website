@@ -30,7 +30,7 @@ export function Starfield() {
             height: `${star.size}px`,
             animationDelay: `${star.delay}s`,
             animationDuration: `${star.duration}s`,
-            opacity: 0.4,
+            opacity: 0.22,
           }}
         />
       ))}
