@@ -12,6 +12,8 @@ import { Contact } from './components/Contact'
 import { Footer } from './components/Footer'
 import Testimonials from './components/Testimonials'
 import { ThankYou } from './components/ThankYou'
+import { PrivacyPolicy } from './pages/PrivacyPolicy'
+import { TermsAndConditions } from './pages/TermsAndConditions'
 import { SEO } from './components/SEO'
 import { Starfield } from './components/Starfield'
 import { Stats } from './components/Stats'
@@ -48,12 +50,14 @@ const PAGE_SEO: Record<string, { title: string; description: string; canonical?:
   },
   '/privacy-policy': {
     title: 'Privacy Policy | Algentrix',
-    description: 'Privacy policy for Algentrix technology consulting and software services.',
+    description:
+      'Learn how Algentrix collects, uses, stores, and protects user information for WorkPulse attendance and workforce management solutions.',
     canonical: `${BASE_URL}/privacy-policy`,
   },
   '/terms': {
-    title: 'Terms and Conditions | Algentrix',
-    description: 'Terms and conditions for Algentrix technology consulting and software services.',
+    title: 'Terms & Conditions | Algentrix',
+    description:
+      'Read the Terms & Conditions for using the Algentrix website and WorkPulse attendance and workforce management platform.',
     canonical: `${BASE_URL}/terms`,
   },
 }
@@ -98,21 +102,6 @@ function ThankYouPage() {
   )
 }
 
-function LegalPage({ title, content }: { title: string; content: string }) {
-  return (
-    <>
-      <Header />
-      <main className="min-h-screen py-32 px-8">
-        <div className="max-w-3xl mx-auto">
-          <h1 className="text-3xl font-bold mb-8">{title}</h1>
-          <p className="text-text-muted leading-relaxed">{content}</p>
-        </div>
-      </main>
-      <Footer />
-    </>
-  )
-}
-
 function AppWithSEO() {
   const location = useLocation()
   const seo = PAGE_SEO[location.pathname] ?? PAGE_SEO['/']
@@ -129,8 +118,8 @@ function AppWithSEO() {
         <Route path="/about" element={<ScrollToSection sectionId="about" />} />
         <Route path="/contact" element={<ScrollToSection sectionId="contact" />} />
         <Route path="/thank-you" element={<ThankYouPage />} />
-        <Route path="/privacy-policy" element={<LegalPage title="Privacy Policy" content="This page contains the privacy policy for Algentrix. Contact us at contact@algentrix.com for more information." />} />
-        <Route path="/terms" element={<LegalPage title="Terms and Conditions" content="This page contains the terms and conditions for Algentrix services. Contact us at contact@algentrix.com for more information." />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/terms" element={<TermsAndConditions />} />
       </Routes>
     </>
   )

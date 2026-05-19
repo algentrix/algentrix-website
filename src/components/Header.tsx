@@ -34,7 +34,10 @@ export function Header() {
     return () => window.removeEventListener('scroll', fn)
   }, [])
 
-  const isThankYou = location.pathname === '/thank-you'
+  const isStandalonePage =
+    location.pathname === '/thank-you' ||
+    location.pathname === '/privacy-policy' ||
+    location.pathname === '/terms'
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault()
@@ -43,9 +46,10 @@ export function Header() {
     target?.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
 
-  const getNavHref = (href: string) => (isThankYou ? (href === '#contact' ? '/#contact' : '/') : href)
+  const getNavHref = (href: string) =>
+    isStandalonePage ? (href === '#contact' ? '/#contact' : href === '#home' ? '/' : `/${href.slice(1)}`) : href
   const handleNavClickOrClose = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    if (isThankYou) setIsMenuOpen(false)
+    if (isStandalonePage) setIsMenuOpen(false)
     else handleNavClick(e, href)
   }
 

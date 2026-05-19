@@ -181,6 +181,39 @@
     scroll-margin-top: 80px;
   }
 
+  /* Privacy policy — document prose + panel scroll */
+  .privacy-prose p {
+    @apply text-ag-silver;
+  }
+
+  .privacy-prose a {
+    @apply text-ag-gold underline underline-offset-2 hover:text-ag-gold-l transition-colors;
+  }
+
+  @media (min-width: 1024px) {
+    .legal-panel-scroll,
+    .privacy-content-scroll {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(201, 168, 76, 0.35) transparent;
+    }
+
+    .legal-panel-scroll::-webkit-scrollbar,
+    .privacy-content-scroll::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .legal-panel-scroll::-webkit-scrollbar-thumb,
+    .privacy-content-scroll::-webkit-scrollbar-thumb {
+      background: rgba(201, 168, 76, 0.35);
+      border-radius: 999px;
+    }
+
+    .legal-panel-scroll::-webkit-scrollbar-track,
+    .privacy-content-scroll::-webkit-scrollbar-track {
+      background: transparent;
+    }
+  }
+
   /* Mobile-specific touch improvements */
   @media (max-width: 767px) {
     html {
