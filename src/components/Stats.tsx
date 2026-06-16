@@ -3,10 +3,10 @@ import gsap from 'gsap'
 import { initGSAP } from '../lib/gsap'
 
 const STATS = [
-  { num: 150, suffix: '+', label: 'Projects Delivered', sub: 'Across 12 industries' },
+  { num: 5, suffix: '+', label: 'Projects Delivered', sub: 'Across 12 industries' },
   { num: 98, suffix: '%', label: 'Client Retention', sub: 'Year-over-year' },
-  { num: 40, suffix: '+', label: 'Enterprise Clients', sub: 'Fortune-listed' },
-  { num: 8, suffix: '+', label: 'Years of Excellence', sub: 'Since 2016' },
+  { num: 4, suffix: '+', label: 'Enterprise Clients', sub: 'Fortune-listed' },
+  { num: 2, suffix: '+', label: 'Years of Experience', sub: 'Since 2016' },
 ]
 
 export function Stats() {

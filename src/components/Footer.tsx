@@ -94,13 +94,13 @@ export function Footer() {
                 <span className="text-sm">contact@algentrix.com</span>
               </a>
               <a
-                href="tel:+1234567890"
+                href="tel:+918237181788"
                 className="inline-flex items-center gap-3 text-ag-silver hover:text-ag-gold transition-colors group"
               >
                 <div className="w-8 h-8 rounded-lg bg-ag-gold/10 flex items-center justify-center group-hover:bg-ag-gold/20 transition-colors">
                   <FaPhone size={14} className="text-ag-gold" />
                 </div>
-                <span className="text-sm">+1 (234) 567-890</span>
+                <span className="text-sm">+91 8237181788</span>
               </a>
             </div>
 

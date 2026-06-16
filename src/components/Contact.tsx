@@ -188,7 +188,7 @@ export function Contact() {
                   </svg>
                 </div>
                 <p className="text-xs text-ag-fog uppercase tracking-wider mb-1">Phone</p>
-                <p className="text-ag-white font-medium">+1 (234) 567-890</p>
+                <p className="text-ag-white font-medium">+91 8237181788</p>
               </div>
             </div>
 
@@ -238,7 +238,7 @@ export function Contact() {
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    placeholder="+1 (555) 000-0000"
+                    placeholder="+91 98765 43210"
                     type="tel"
                   />
                 </div>
