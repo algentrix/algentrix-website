@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
-import { FaLinkedinIn, FaEnvelope, FaPhone } from 'react-icons/fa'
+import { FaLinkedinIn, FaEnvelope } from 'react-icons/fa'
 import gsap from 'gsap'
 import { initGSAP } from '../lib/gsap'
 
@@ -92,15 +92,6 @@ export function Footer() {
                   <FaEnvelope size={14} className="text-ag-gold" />
                 </div>
                 <span className="text-sm">contact@algentrix.com</span>
-              </a>
-              <a
-                href="tel:+918237181788"
-                className="inline-flex items-center gap-3 text-ag-silver hover:text-ag-gold transition-colors group"
-              >
-                <div className="w-8 h-8 rounded-lg bg-ag-gold/10 flex items-center justify-center group-hover:bg-ag-gold/20 transition-colors">
-                  <FaPhone size={14} className="text-ag-gold" />
-                </div>
-                <span className="text-sm">+91 8237181788</span>
               </a>
             </div>
 
