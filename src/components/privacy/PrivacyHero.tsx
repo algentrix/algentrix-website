@@ -29,8 +29,8 @@ export function PrivacyHero() {
               Effective {PRIVACY_EFFECTIVE_DATE}
             </p>
             <p className="text-ag-silver text-base sm:text-lg leading-relaxed max-w-2xl">
-              How Algentrix collects, uses, stores, and protects information for attendance and
-              workforce management.
+              How WorkPulse collects, uses, stores, and protects workforce information for
+              business customers and their employees.
             </p>
           </div>
 

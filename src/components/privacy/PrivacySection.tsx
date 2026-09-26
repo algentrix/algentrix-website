@@ -56,7 +56,7 @@ export function PrivacySection({ section }: PrivacySectionProps) {
         {section.lists?.map((block) => (
           <div
             key={block.title ?? block.items.join('-')}
-            className={block.title ? 'space-y-3' : undefined}
+            className={block.title || block.note ? 'space-y-3' : undefined}
           >
             {block.title && (
               <h3 className="text-base font-semibold text-ag-white">{block.title}</h3>
@@ -66,7 +66,12 @@ export function PrivacySection({ section }: PrivacySectionProps) {
                 <li key={item}>{item}</li>
               ))}
             </ul>
+            {block.note && <p>{block.note}</p>}
           </div>
+        ))}
+
+        {section.closing?.map((paragraph) => (
+          <p key={paragraph}>{paragraph}</p>
         ))}
       </div>
     </motion.article>
