@@ -14,6 +14,7 @@ import Testimonials from './components/Testimonials'
 import { ThankYou } from './components/ThankYou'
 import { PrivacyPolicy } from './pages/PrivacyPolicy'
 import { TermsAndConditions } from './pages/TermsAndConditions'
+import { TradeConnectPage } from './pages/TradeConnectPage'
 import { SEO } from './components/SEO'
 import { Starfield } from './components/Starfield'
 import { Stats } from './components/Stats'
@@ -59,6 +60,12 @@ const PAGE_SEO: Record<string, { title: string; description: string; canonical?:
     description:
       'Read the Terms & Conditions for using the Algentrix website and WorkPulse attendance and workforce management platform.',
     canonical: `${BASE_URL}/terms`,
+  },
+  '/tradeconnect': {
+    title: 'TradeConnect | WhatsApp-first Trading Operations',
+    description:
+      'TradeConnect connects buyer requirements, supplier sourcing, WhatsApp conversations, Sauda, purchase orders, trucks and trade records for B2B commodity businesses.',
+    canonical: `${BASE_URL}/tradeconnect`,
   },
 }
 
@@ -120,6 +127,7 @@ function AppWithSEO() {
         <Route path="/thank-you" element={<ThankYouPage />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms" element={<TermsAndConditions />} />
+        <Route path="/tradeconnect" element={<TradeConnectPage />} />
       </Routes>
     </>
   )

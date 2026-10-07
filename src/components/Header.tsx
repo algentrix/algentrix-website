@@ -37,7 +37,8 @@ export function Header() {
   const isStandalonePage =
     location.pathname === '/thank-you' ||
     location.pathname === '/privacy-policy' ||
-    location.pathname === '/terms'
+    location.pathname === '/terms' ||
+    location.pathname === '/tradeconnect'
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault()
@@ -116,7 +117,7 @@ export function Header() {
 
         <div className="hidden md:block">
           <AgMagneticButton>
-            <AnimatedButton />
+            <AnimatedButton href={isStandalonePage ? '/contact' : '#contact'} />
           </AgMagneticButton>
         </div>
 
