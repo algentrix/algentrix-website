@@ -4,8 +4,6 @@ import { FaLinkedinIn, FaEnvelope } from 'react-icons/fa'
 import gsap from 'gsap'
 import { initGSAP } from '../lib/gsap'
 
-const isExternalLink = (href: string) => href.startsWith('#') || href.startsWith('http')
-
 const servicesLinks = [
   { label: 'Data Analytics', href: '/services' },
   { label: 'Technology Consulting', href: '/services' },
@@ -16,9 +14,9 @@ const servicesLinks = [
 ]
 
 const companyLinks = [
-  { label: 'About Us', href: '/about' },
+  { label: 'About', href: '/about' },
+  { label: 'Works', href: '/works' },
   { label: 'TradeConnect', href: '/tradeconnect' },
-  { label: 'Case Studies', href: '/#case-studies' },
   { label: 'Contact', href: '/contact' },
 ]
 
@@ -132,21 +130,12 @@ export function Footer() {
               <ul className="space-y-2.5">
                 {companyLinks.map((link) => (
                   <li key={link.label}>
-                    {isExternalLink(link.href) ? (
-                      <a
-                        href={link.href}
-                        className="text-sm text-ag-mist hover:text-ag-white transition-colors hover:translate-x-1 inline-block"
-                      >
-                        {link.label}
-                      </a>
-                    ) : (
-                      <Link
-                        to={link.href}
-                        className="text-sm text-ag-mist hover:text-ag-white transition-colors hover:translate-x-1 inline-block"
-                      >
-                        {link.label}
-                      </Link>
-                    )}
+                    <Link
+                      to={link.href}
+                      className="text-sm text-ag-mist hover:text-ag-white transition-colors hover:translate-x-1 inline-block"
+                    >
+                      {link.label}
+                    </Link>
                   </li>
                 ))}
               </ul>

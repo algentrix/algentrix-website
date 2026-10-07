@@ -6,10 +6,11 @@ import AnimatedButton from './button/AnimatedButton'
 import { AgMagneticButton } from './ag'
 
 const navLinks = [
-  { href: '#home', label: 'Home' },
-  { href: '#about', label: 'About' },
-  { href: '#services', label: 'Services' },
-  { href: '#contact', label: 'Contact' },
+  { label: 'Home', to: '/', hash: '#home' },
+  { label: 'About', to: '/about', hash: '#about' },
+  { label: 'Services', to: '/services', hash: '#services' },
+  { label: 'Works', to: '/works' },
+  { label: 'Contact', to: '/contact', hash: '#contact' },
 ]
 
 export function Header() {
@@ -34,24 +35,16 @@ export function Header() {
     return () => window.removeEventListener('scroll', fn)
   }, [])
 
-  const isStandalonePage =
-    location.pathname === '/thank-you' ||
-    location.pathname === '/privacy-policy' ||
-    location.pathname === '/terms' ||
-    location.pathname === '/tradeconnect'
+  const onHome = location.pathname === '/'
+  const consultationHref = onHome ? '#contact' : '/contact'
 
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    e.preventDefault()
+  const handleHashClick = (event: React.MouseEvent<HTMLAnchorElement>, hash: string) => {
+    event.preventDefault()
     setIsMenuOpen(false)
-    const target = document.querySelector(href)
-    target?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-  }
-
-  const getNavHref = (href: string) =>
-    isStandalonePage ? (href === '#contact' ? '/#contact' : href === '#home' ? '/' : `/${href.slice(1)}`) : href
-  const handleNavClickOrClose = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    if (isStandalonePage) setIsMenuOpen(false)
-    else handleNavClick(e, href)
+    const el = document.querySelector(hash)
+    if (!(el instanceof HTMLElement)) return
+    const top = Math.max(0, el.getBoundingClientRect().top + window.scrollY - 80)
+    window.scrollTo({ top, behavior: 'smooth' })
   }
 
   useLayoutEffect(() => {
@@ -99,25 +92,35 @@ export function Header() {
 
         <nav
           ref={navRef}
-          className={`flex gap-9 fixed top-[72px] left-0 right-0 flex-col py-8 px-8 bg-ag-void/98 border-b border-ag-gold/10 shadow-lg transition-all duration-300 md:static md:flex-row md:py-0 md:px-0 md:bg-transparent md:border-0 md:shadow-none md:translate-y-0 md:opacity-100 md:pointer-events-auto z-[999] ${
+          className={`fixed top-[72px] left-0 right-0 z-[999] flex flex-col gap-6 bg-ag-void/98 px-8 py-8 shadow-lg border-b border-ag-gold/10 transition-all duration-300 md:static md:flex-row md:items-center md:gap-4 md:bg-transparent md:px-0 md:py-0 md:border-0 md:shadow-none md:translate-y-0 md:opacity-100 md:pointer-events-auto lg:gap-7 ${
             !isMenuOpen ? '-translate-y-full opacity-0 pointer-events-none md:translate-y-0 md:opacity-100 md:pointer-events-auto' : 'translate-y-0 opacity-100 pointer-events-auto'
           }`}
         >
-          {navLinks.map((link) => (
-            <a
-              key={link.href}
-              href={getNavHref(link.href)}
-              className="font-sans text-[11px] font-medium tracking-[0.14em] uppercase text-ag-mist transition-colors hover:text-ag-white"
-              onClick={(e) => handleNavClickOrClose(e, link.href)}
-            >
-              {link.label}
-            </a>
-          ))}
+          {navLinks.map((link) => {
+            const className = `font-sans text-[11px] font-medium tracking-[0.14em] uppercase transition-colors hover:text-ag-white ${
+              location.pathname === link.to ? 'text-ag-gold' : 'text-ag-mist'
+            }`
+            if (onHome && link.hash) {
+              return (
+                <a key={link.label} href={link.hash} className={className} onClick={(event) => handleHashClick(event, link.hash)}>
+                  {link.label}
+                </a>
+              )
+            }
+            return (
+              <Link key={link.label} to={link.to} className={className} onClick={() => setIsMenuOpen(false)}>
+                {link.label}
+              </Link>
+            )
+          })}
+          <div className="pt-2 md:hidden" onClick={() => setIsMenuOpen(false)}>
+            <AnimatedButton href={consultationHref} />
+          </div>
         </nav>
 
         <div className="hidden md:block">
           <AgMagneticButton>
-            <AnimatedButton href={isStandalonePage ? '/contact' : '#contact'} />
+            <AnimatedButton href={consultationHref} />
           </AgMagneticButton>
         </div>
 

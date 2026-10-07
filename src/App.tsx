@@ -15,6 +15,8 @@ import { ThankYou } from './components/ThankYou'
 import { PrivacyPolicy } from './pages/PrivacyPolicy'
 import { TermsAndConditions } from './pages/TermsAndConditions'
 import { TradeConnectPage } from './pages/TradeConnectPage'
+import { WorksPage } from './pages/WorksPage'
+import { AiAssistant } from './components/AiAssistant'
 import { SEO } from './components/SEO'
 import { Starfield } from './components/Starfield'
 import { Stats } from './components/Stats'
@@ -64,8 +66,13 @@ const PAGE_SEO: Record<string, { title: string; description: string; canonical?:
   '/tradeconnect': {
     title: 'TradeConnect | WhatsApp-first Trading Operations',
     description:
-      'TradeConnect connects buyer requirements, supplier sourcing, WhatsApp conversations, Sauda, purchase orders, trucks and trade records for B2B commodity businesses.',
+      'TradeConnect is WhatsApp-first trading operations for B2B commodity businesses. It connects requirements, supplier responses, purchase orders, dispatch, and the trade register.',
     canonical: `${BASE_URL}/tradeconnect`,
+  },
+  '/works': {
+    title: "Works | What We've Built | Algentrix",
+    description: 'Practical digital products and business systems built around real-world workflows, including TradeConnect.',
+    canonical: `${BASE_URL}/works`,
   },
 }
 
@@ -91,10 +98,22 @@ function HomePage() {
   )
 }
 
+function scrollToSection(sectionId: string) {
+  const el = document.getElementById(sectionId)
+  if (!el) return
+  const top = Math.max(0, el.getBoundingClientRect().top + window.scrollY - 80)
+  window.scrollTo({ top, behavior: 'auto' })
+}
+
 function ScrollToSection({ sectionId }: { sectionId: string }) {
   useEffect(() => {
-    const el = document.getElementById(sectionId)
-    el?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    scrollToSection(sectionId)
+    const frame = window.requestAnimationFrame(() => scrollToSection(sectionId))
+    const timer = window.setTimeout(() => scrollToSection(sectionId), 150)
+    return () => {
+      window.cancelAnimationFrame(frame)
+      window.clearTimeout(timer)
+    }
   }, [sectionId])
   return <HomePage />
 }
@@ -119,6 +138,7 @@ function AppWithSEO() {
       <Starfield />
       <ScrollProgress />
       <SEO title={seo.title} description={seo.description} canonical={seo.canonical} />
+      <AiAssistant />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/services" element={<ScrollToSection sectionId="services" />} />
@@ -128,6 +148,7 @@ function AppWithSEO() {
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms" element={<TermsAndConditions />} />
         <Route path="/tradeconnect" element={<TradeConnectPage />} />
+        <Route path="/works" element={<WorksPage />} />
       </Routes>
     </>
   )
