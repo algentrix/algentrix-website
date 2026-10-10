@@ -22,3 +22,9 @@
 @media(max-width:480px){.tc-page .journey .workflow-panel{padding:22px;gap:25px}.tc-page .journey .workflow-visual figcaption{align-items:start}.tc-page .journey .workflow-caption{font-size:7px}.tc-page .workflow-image-hint{display:none}.tc-page .workflow-enlarge{width:27px;height:27px;right:8px;bottom:8px}}
 
 .tc-page .reading-progress{z-index:10000}
+.tc-page .video-section{background:#0d241c}
+.tc-page .video-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.tc-page .video-frame{position:relative;aspect-ratio:16/9;overflow:hidden;border:1px solid var(--line);border-radius:12px;background:#081b12}
+.tc-page .video-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.tc-page .video-card figcaption{display:flex;justify-content:space-between;gap:16px;margin-top:14px;font-size:10px;font-weight:600;letter-spacing:1.4px;color:#a4b5a8}
+@media(max-width:800px){.tc-page .video-grid{grid-template-columns:1fr;gap:22px}}

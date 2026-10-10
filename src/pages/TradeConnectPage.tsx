@@ -269,6 +269,7 @@ export function TradeConnectPage() {
           <nav aria-label="Case study navigation">
             <a href="#experience">The product</a>
             <a href="#workflow">The workflow</a>
+            <a href="#watch">Watch</a>
             <a href="#foundation">The build</a>
           </nav>
           <div className="header-actions">
@@ -936,6 +937,60 @@ export function TradeConnectPage() {
                   views show the actual responsive web interface.
                 </p>
               </details>
+            </div>
+          </div>
+        </section>
+
+        <section className="section video-section" id="watch" aria-labelledby="watch-title">
+          <div className="wrap">
+            <div className="section-label">
+              <span>WATCH TRADECONNECT</span>
+              <span>HINDI AND ENGLISH</span>
+            </div>
+            <div className="section-heading">
+              <h2 id="watch-title" data-reveal>
+                See the workflow.
+                <br />
+                <em>In your language.</em>
+              </h2>
+              <p data-reveal>
+                Two walkthroughs of the same connected trade, from the buyer requirement through supplier replies, Sauda,
+                purchase orders and dispatch.
+              </p>
+            </div>
+            <div className="video-grid">
+              <figure className="video-card" data-reveal>
+                <div className="video-frame">
+                  <iframe
+                    src="https://www.youtube-nocookie.com/embed/Fbf4uYsDDV4"
+                    title="TradeConnect walkthrough in Hindi"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    allowFullScreen
+                    loading="lazy"
+                  />
+                </div>
+                <figcaption>
+                  <span>01 / HINDI</span>
+                  <span>हिन्दी</span>
+                </figcaption>
+              </figure>
+              <figure className="video-card" data-reveal>
+                <div className="video-frame">
+                  <iframe
+                    src="https://www.youtube-nocookie.com/embed/caGtRpeT9rc"
+                    title="TradeConnect walkthrough in English"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    allowFullScreen
+                    loading="lazy"
+                  />
+                </div>
+                <figcaption>
+                  <span>02 / ENGLISH</span>
+                  <span>WALKTHROUGH</span>
+                </figcaption>
+              </figure>
             </div>
           </div>
         </section>
