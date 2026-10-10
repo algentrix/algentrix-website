@@ -64,14 +64,14 @@ const PAGE_SEO: Record<string, { title: string; description: string; canonical?:
     canonical: `${BASE_URL}/terms`,
   },
   '/tradeconnect': {
-    title: 'TradeConnect | WhatsApp-first Trading Operations',
+    title: 'TradeConnect — From buyer demand to delivered | Algentrix',
     description:
-      'TradeConnect is WhatsApp-first trading operations for B2B commodity businesses. It connects requirements, supplier responses, purchase orders, dispatch, and the trade register.',
+      'A connected commodity trading workspace for Indian businesses. Explore TradeConnect requirements, WhatsApp sourcing, Sauda, purchase orders and dispatch. Built by Algentrix.',
     canonical: `${BASE_URL}/tradeconnect`,
   },
   '/works': {
     title: "Works | What We've Built | Algentrix",
-    description: 'Practical digital products and business systems built around real-world workflows, including TradeConnect.',
+    description: 'Practical digital products and business systems built around real-world workflows, including Tiger Fitness web and mobile gym management and TradeConnect.',
     canonical: `${BASE_URL}/works`,
   },
 }

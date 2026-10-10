@@ -3,7 +3,28 @@ import { Link } from 'react-router-dom'
 import gsap from 'gsap'
 import { initGSAP } from '../lib/gsap'
 
-const caseStudies = [
+type CaseStudy = {
+  client: string
+  problem: string
+  solution: string
+  result: string
+  resultLabel: string
+  gradient: string
+  href?: string
+  resultIsCapability?: boolean
+}
+
+const caseStudies: CaseStudy[] = [
+  {
+    client: 'Tiger Fitness',
+    problem: 'Gym operations and member training need connected workflows across onboarding, memberships, billing, attendance and coaching.',
+    solution: 'Built a React team workspace, member web portal and Flutter member app on a shared .NET API, connecting gym operations with workouts, diet plans and recorded progress.',
+    result: 'Web + Mobile',
+    resultLabel: 'One connected gym platform',
+    resultIsCapability: true,
+    href: '/case-studies/tiger-fitness/',
+    gradient: 'from-ag-gold/15 via-bg-card to-accent-purple/10',
+  },
   {
     client: 'Manufacturing Co.',
     problem: 'Manual data entry across Tally, Excel, and ERP caused delays and errors. Reports took days to compile.',
@@ -113,13 +134,13 @@ export function CaseStudies() {
       <div className="relative z-10">
         <div className="text-center mb-16 md:mb-24">
           <p className="font-mono text-ag-gold text-sm uppercase tracking-[0.2em] mb-4">
-            <span className="inline-block animate-pulse">●</span> Proof in Numbers
+            <span className="inline-block animate-pulse">●</span> Products & Outcomes
           </p>
           <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-6">
             Results That <span className="text-ag-gold">Speak</span>
           </h2>
           <p className="text-ag-silver text-lg max-w-2xl mx-auto leading-relaxed">
-            How we helped businesses transform operations and drive measurable outcomes
+            Connected products and practical outcomes built around real business workflows
           </p>
           <div className="mt-8 h-px max-w-[150px] mx-auto bg-gradient-to-r from-transparent via-ag-gold/30 to-transparent" />
         </div>
@@ -144,7 +165,7 @@ export function CaseStudies() {
 function CaseStudyCard({
   study,
 }: {
-  study: typeof caseStudies[number]
+  study: CaseStudy
 }) {
   const cardRef = useRef<HTMLDivElement>(null)
 
@@ -200,8 +221,8 @@ function CaseStudyCard({
           </div>
 
           <div className="md:text-right md:pl-8 md:border-l md:border-ag-gold/20 relative">
-            <p className="text-ag-fog text-xs uppercase tracking-wider mb-3">Result</p>
-            <p className="result-number text-ag-gold text-5xl md:text-6xl font-black tabular-nums">
+            <p className="text-ag-fog text-xs uppercase tracking-wider mb-3">{study.resultIsCapability ? 'Delivered' : 'Result'}</p>
+            <p className={`result-number text-ag-gold font-black ${study.resultIsCapability ? 'text-3xl md:text-4xl leading-tight' : 'text-5xl md:text-6xl tabular-nums'}`}>
               {study.result}
             </p>
             <p className="text-ag-off text-lg font-medium mt-2">{study.resultLabel}</p>
@@ -210,6 +231,14 @@ function CaseStudyCard({
             <div className="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-ag-gold/30 rounded-tr-lg" />
           </div>
         </div>
+        {study.href && (
+          <a
+            href={study.href}
+            className="mt-8 inline-flex min-h-11 items-center gap-4 font-semibold text-ag-gold transition-colors hover:text-ag-gold-l focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ag-gold"
+          >
+            View case study <span aria-hidden="true">↗</span>
+          </a>
+        )}
       </div>
     </div>
   )

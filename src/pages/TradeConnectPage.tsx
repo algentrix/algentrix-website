@@ -1,525 +1,1012 @@
-import { useEffect, type ReactNode } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { motion } from 'framer-motion'
-import {
-  Check,
-  FileText,
-  MessageCircle,
-  Phone,
-  Sheet,
-  Truck,
-} from 'lucide-react'
-import { Header } from '../components/Header'
-import { Footer } from '../components/Footer'
+import gsap from 'gsap'
+import { initGSAP, ScrollTrigger } from '../lib/gsap'
+import './tradeconnect-case.css'
 
-const SHOTS = '/products/tradeconnect'
+const ASSET = '/products/tradeconnect/case'
 
-const heroFlow = [
-  'RFQ',
-  'Supplier Reply',
-  'Negotiation',
-  'Sauda',
-  'PO',
-  'Dispatch',
-  'Trade File',
-]
-
-const problemCards = [
-  { icon: MessageCircle, title: 'WhatsApp', text: 'Supplier conversations' },
-  { icon: Phone, title: 'Phone Calls', text: 'Negotiation and follow-ups' },
-  { icon: Sheet, title: 'Excel', text: 'Rates and calculations' },
-  { icon: FileText, title: 'Documents', text: 'POs, invoices and weighment' },
-  { icon: Truck, title: 'Truck Coordination', text: 'Dispatch and delivery' },
-]
+const screens = [
+  {
+    key: 'workspace',
+    index: '01',
+    title: 'Requirement workspace',
+    hint: 'Demand, replies and the next action',
+    label: 'REQUIREMENT / SUPPLIER CONVERSATIONS',
+    description: 'One place to source suppliers, review replies and continue into commercial decisions.',
+  },
+  {
+    key: 'calls',
+    index: '02',
+    title: "Today's Calls",
+    hint: 'Supplier readiness & follow-ups',
+    label: 'DAILY WORK / EXPECTED MATERIAL',
+    description: 'Prioritised supplier outreach: callbacks, production readiness and follow-ups.',
+  },
+  {
+    key: 'deal',
+    index: '03',
+    title: 'Sauda & purchase order',
+    hint: 'Commercial terms, made explicit',
+    label: 'COMMERCIAL / CONFIRM AND FORMALIZE',
+    description: 'Review agreed terms, confirm allocation and carry the deal forward into a purchase order.',
+  },
+  {
+    key: 'dispatch',
+    index: '04',
+    title: 'Dispatch workspace',
+    hint: 'Trucks, drivers and delivery stages',
+    label: 'EXECUTION / DISPATCH DETAILS',
+    description: 'Transporter, vehicle and driver details alongside recorded delivery stages.',
+  },
+] as const
 
 const steps = [
   {
-    n: '01',
-    title: 'Buyer Requirement',
-    text: 'Capture what the buyer needs.',
+    tab: 'Requirement',
+    label: 'CAPTURE BUYER DEMAND',
+    title: 'Start with a clear requirement.',
+    description:
+      'Record buyer, material, quantity, rate, destination and trade date. Matching material, destination and date can be grouped into a demand pool.',
+    tags: ['Buyer', 'Material & quantity', 'Destination'],
+    caption: 'THE DEMAND THAT STARTS THE TRADE',
+    image: 'requirements',
+    imageTitle: 'Requirements',
+    alt: 'TradeConnect requirements showcase highlighting filters, buyer demand, quantities and truck status',
   },
   {
-    n: '02',
-    title: 'Supplier Sourcing',
-    text: 'Send a WhatsApp RFQ to selected suppliers.',
+    tab: 'Source',
+    label: 'REACH THE RIGHT SUPPLIERS',
+    title: 'Keep the conversation connected.',
+    description:
+      'Plan a WhatsApp RFQ, select suppliers and review delivery and responses. Record availability, counteroffers and proposed truck quantities in the same workspace.',
+    tags: ['RFQ broadcast', 'Replies', 'Negotiation'],
+    caption: 'THE CONVERSATIONS THAT SHAPE THE DEAL',
+    image: 'supplier-responses',
+    imageTitle: 'Supplier responses',
+    alt: 'TradeConnect supplier responses showcase highlighting rates, availability and WhatsApp replies',
   },
   {
-    n: '03',
-    title: 'Supplier Replies',
-    text: 'YES / NO / CALL and commercial replies come back into the same requirement.',
+    tab: 'Sauda',
+    label: 'CONFIRM COMMERCIAL TERMS',
+    title: 'Turn agreement into Sauda.',
+    description:
+      'Review rate, quantity, truck count and freight. A draft keeps the proposed terms available for review. Confirming Sauda locks allocation and unlocks PO generation.',
+    tags: ['Review terms', 'Confirm Sauda', 'Lock allocation'],
+    caption: 'THE DECISION THAT COMMITS THE QUANTITY',
+    image: 'trade-register',
+    imageTitle: 'Trade register / Sauda',
+    alt: 'TradeConnect trade register showcase highlighting agreed terms, quantities, margins and connected dispatch',
   },
   {
-    n: '04',
-    title: 'Sauda',
-    text: 'Lock rate, quantity, trucks and freight.',
+    tab: 'Purchase order',
+    label: 'FORMALIZE THE AGREEMENT',
+    title: 'Give the handoff a shared record.',
+    description:
+      'Preview and generate the purchase order, send it to the supplier and track confirmation. The PO becomes the commercial input for the dispatch workspace.',
+    tags: ['PO preview', 'Supplier confirmation', 'Dispatch input'],
+    caption: 'THE RECORD THAT CARRIES THE TERMS',
+    image: 'purchase-order',
+    imageTitle: 'Purchase order',
+    alt: 'TradeConnect purchase order showcase highlighting quantity, rate, GST, trucks and freight',
   },
   {
-    n: '05',
-    title: 'Purchase Order',
-    text: 'Generate the PO and send it directly to the supplier.',
+    tab: 'Dispatch',
+    label: 'COORDINATE THE TRUCKS',
+    title: 'Move from terms to transport.',
+    description:
+      'Choose a transporter, assign vehicles and capture driver details. Advance each truck through recorded field stages and flag issues that need attention.',
+    tags: ['Transporter', 'Driver contact', 'Truck stages'],
+    caption: 'THE TRUCKS THAT MOVE THE MATERIAL',
+    image: 'dispatch',
+    imageTitle: 'Dispatch & trucks',
+    alt: 'TradeConnect dispatch showcase highlighting truck details and recorded delivery status',
   },
   {
-    n: '06',
-    title: 'Dispatch',
-    text: 'Assign trucks and follow: Loading → In Transit → Delivered.',
+    tab: 'Delivered',
+    label: 'COMPLETE THE HANDOFF',
+    title: 'Bring the journey through delivery.',
+    description:
+      'Advance from In Transit to Reached Buyer and Delivered as field updates arrive. The requirement retains the commercial and execution context of the trade.',
+    tags: ['Reached buyer', 'Delivered', 'Trade history'],
+    caption: 'THE FINAL HANDOFF, STILL CONNECTED',
+    image: 'trade-register',
+    imageTitle: 'Delivered / trade register',
+    alt: 'TradeConnect trade register showcase showing delivered quantity, completed truck and trade details',
   },
-  {
-    n: '07',
-    title: 'Trade Register',
-    text: 'Keep documents, weighment, payments and trade status together.',
-  },
-]
+] as const
 
-const audiences = [
-  'Steel & Metal Traders',
-  'Commodity Traders',
-  'Regional Distributors',
-  'Family-Owned Trading Businesses',
-  'WhatsApp-Driven Trading Desks',
-]
-
-const erpItems = ['Finance', 'Accounting', 'Inventory', 'Enterprise records']
-const crmItems = ['Customers', 'Leads', 'Sales', 'Follow-ups']
-const tradeItems = [
-  'Buyer Requirements',
-  'Supplier Sourcing',
-  'WhatsApp Responses',
-  'Negotiation',
-  'Sauda',
-  'PO',
-  'Dispatch',
-  'Trade Register',
-]
-
-function Reveal({
-  children,
-  className = '',
-}: {
-  children: ReactNode
-  className?: string
-}) {
+function Wordmark() {
   return (
-    <motion.div
-      className={className}
-      initial={{ opacity: 0, y: 18 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-60px' }}
-      transition={{ duration: 0.55, ease: 'easeOut' }}
-    >
-      {children}
-    </motion.div>
-  )
-}
-
-function GoldButton({ href, children }: { href: string; children: ReactNode }) {
-  const className =
-    'inline-flex items-center justify-center min-h-12 px-6 py-3 text-[12px] font-semibold tracking-[0.14em] uppercase bg-ag-gold text-ag-void transition-colors hover:bg-ag-gold-l'
-  if (href.startsWith('/')) {
-    return (
-      <Link to={href} className={className}>
-        {children}
-      </Link>
-    )
-  }
-  return (
-    <a href={href} className={className}>
-      {children}
-    </a>
-  )
-}
-
-function GhostButton({ href, children }: { href: string; children: ReactNode }) {
-  const className =
-    'inline-flex items-center justify-center min-h-12 px-6 py-3 text-[12px] font-semibold tracking-[0.14em] uppercase border border-ag-gold/50 text-ag-white transition-colors hover:border-ag-gold hover:text-ag-gold-l'
-  if (href.startsWith('/')) {
-    return (
-      <Link to={href} className={className}>
-        {children}
-      </Link>
-    )
-  }
-  return (
-    <a href={href} className={className}>
-      {children}
-    </a>
-  )
-}
-
-function FlowLine({ items, light = false }: { items: string[]; light?: boolean }) {
-  return (
-    <ol className="flex flex-wrap items-center gap-x-2 gap-y-3">
-      {items.map((item, index) => (
-        <li key={item} className="flex items-center gap-2">
-          <span
-            className={`px-3 py-1.5 text-[12px] font-medium tracking-wide ${
-              light
-                ? 'bg-white text-[#1c2430] ring-1 ring-black/10'
-                : 'bg-white/10 text-ag-white ring-1 ring-white/15'
-            }`}
-          >
-            {item}
-          </span>
-          {index < items.length - 1 ? (
-            <span className={light ? 'text-[#9aa3af]' : 'text-ag-gold/80'} aria-hidden>
-              →
-            </span>
-          ) : null}
-        </li>
-      ))}
-    </ol>
-  )
-}
-
-function ProductShot({
-  label,
-  title,
-  text,
-  points,
-  src,
-  alt,
-  width,
-  height,
-  imageLeft = false,
-  className = '',
-}: {
-  label: string
-  title: string
-  text: string
-  points?: string[]
-  src: string
-  alt: string
-  width: number
-  height: number
-  imageLeft?: boolean
-  className?: string
-}) {
-  return (
-    <article
-      className={`mx-auto grid max-w-[1680px] items-center gap-10 lg:gap-12 ${
-        imageLeft
-          ? 'lg:grid-cols-[minmax(0,0.58fr)_minmax(0,0.42fr)]'
-          : 'lg:grid-cols-[minmax(0,0.42fr)_minmax(0,0.58fr)]'
-      } ${className}`}
-    >
-      <div className={imageLeft ? 'lg:order-2' : undefined}>
-        <p className="font-mono text-[12px] uppercase tracking-[0.14em] text-ag-gold-d">{label}</p>
-        <h3 className="mt-3 max-w-xl font-serif text-3xl sm:text-4xl">{title}</h3>
-        <p className="mt-4 max-w-lg text-lg leading-relaxed text-[#3e4a59]">{text}</p>
-        {points ? (
-          <ul className="mt-8 space-y-3 text-[16px] leading-relaxed text-[#3e4a59]">
-            {points.map((item) => (
-              <li key={item} className="flex items-center gap-3">
-                <Check className="h-4 w-4 shrink-0 text-ag-gold-d" strokeWidth={2.25} aria-hidden />
-                {item}
-              </li>
-            ))}
-          </ul>
-        ) : null}
-      </div>
-      <figure className={`m-0 w-full min-w-0 max-w-[850px] ${imageLeft ? 'mr-auto lg:order-1' : 'ml-auto'}`}>
-        <picture>
-          <source srcSet={src.replace(/\.jpg$/, '.webp')} type="image/webp" />
-          <img
-            src={src}
-            alt={alt}
-            width={width}
-            height={height}
-            className="h-auto w-full rounded-2xl object-contain shadow-[0_16px_36px_-22px_rgba(0,0,0,0.45)]"
-          />
-        </picture>
-      </figure>
-    </article>
+    <>
+      Algen<span>trix</span>
+      <i aria-hidden="true">✳</i>
+    </>
   )
 }
 
 export function TradeConnectPage() {
+  const rootRef = useRef<HTMLDivElement>(null)
+  const progressRef = useRef<HTMLDivElement>(null)
+  const dialogRef = useRef<HTMLDialogElement>(null)
+  const openerRef = useRef<HTMLElement | null>(null)
+  const introPlayed = useRef(false)
+  const [screenIndex, setScreenIndex] = useState(0)
+  const [stepIndex, setStepIndex] = useState(0)
+  const [paused, setPaused] = useState(false)
+  const [showMotionToggle, setShowMotionToggle] = useState(false)
+  const [preview, setPreview] = useState<{ src: string; title: string } | null>(null)
+
+  const screen = screens[screenIndex]
+  const step = steps[stepIndex]
+  const stepNumber = String(stepIndex + 1).padStart(2, '0')
+
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [])
 
+  useEffect(() => {
+    const html = document.documentElement
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    html.style.scrollPaddingTop = '95px'
+    html.style.scrollBehavior = paused || reduced ? 'auto' : 'smooth'
+    return () => {
+      html.style.scrollPaddingTop = ''
+      html.style.scrollBehavior = ''
+    }
+  }, [paused])
+
+  useEffect(() => {
+    const bar = progressRef.current
+    if (!bar) return
+    let ticking = false
+    const progress = () => {
+      const length = document.documentElement.scrollHeight - window.innerHeight
+      const value = length > 0 ? Math.min(1, Math.max(0, window.scrollY / length)) : 0
+      bar.style.transform = `scaleX(${value})`
+      ticking = false
+    }
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true
+        requestAnimationFrame(progress)
+      }
+    }
+    progress()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', progress)
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', progress)
+    }
+  }, [])
+
+  useLayoutEffect(() => {
+    const root = rootRef.current
+    if (!root) return
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const sync = () => setShowMotionToggle(!reduced.matches)
+    sync()
+    reduced.addEventListener('change', sync)
+    if (reduced.matches || paused) {
+      return () => reduced.removeEventListener('change', sync)
+    }
+
+    initGSAP()
+    const playIntro = !introPlayed.current
+    introPlayed.current = true
+    let ambient: gsap.core.Timeline | undefined
+
+    const ctx = gsap.context(() => {
+      if (playIntro) {
+        gsap
+          .timeline({ defaults: { ease: 'power3.out', clearProps: 'opacity,transform' } })
+          .from('.hero-meta', { y: 10, opacity: 0, duration: 0.6 })
+          .from('.hero-copy .eyebrow', { y: 15, opacity: 0, duration: 0.6 }, 0.15)
+          .from('.hero-line', { y: 35, opacity: 0, duration: 0.9, stagger: 0.12 }, 0.25)
+          .from('.hero-description, .pill-link', { y: 20, opacity: 0, duration: 0.8, stagger: 0.1 }, 0.55)
+          .from('.hero-map', { opacity: 0, y: 18, duration: 1 }, 0.4)
+      }
+      ambient = gsap.timeline({ repeat: -1, yoyo: true }).to('.map-core', {
+        boxShadow: '0 0 70px #bded5628',
+        duration: 5,
+        ease: 'sine.inOut',
+      })
+      root.querySelectorAll<HTMLElement>('[data-reveal]').forEach((element) => {
+        gsap.from(element, {
+          y: 22,
+          opacity: 0,
+          duration: 0.8,
+          ease: 'power2.out',
+          immediateRender: false,
+          clearProps: 'opacity,transform',
+          scrollTrigger: { trigger: element, start: 'top 93%', once: true },
+        })
+      })
+    }, root)
+
+    const onVisibility = () => ambient?.paused(document.hidden || paused)
+    document.addEventListener('visibilitychange', onVisibility)
+    ScrollTrigger.refresh()
+
+    return () => {
+      document.removeEventListener('visibilitychange', onVisibility)
+      reduced.removeEventListener('change', sync)
+      ctx.revert()
+    }
+  }, [paused])
+
+  useEffect(() => {
+    const dialog = dialogRef.current
+    if (!preview || !dialog) return
+    document.body.style.overflow = 'hidden'
+    if (!dialog.open) dialog.showModal()
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [preview])
+
+  function openPreview(src: string, title: string, opener: HTMLElement) {
+    openerRef.current = opener
+    setPreview({ src, title })
+  }
+
+  function closePreview() {
+    dialogRef.current?.close()
+  }
+
   return (
-    <div className="relative z-10 bg-ag-void text-ag-white">
-      <Header />
-      <main>
-        <section className="relative overflow-hidden px-5 pb-20 pt-28 sm:px-8 md:pr-24 lg:pb-28 lg:pt-32">
-          <div className="pointer-events-none absolute inset-0" aria-hidden>
-            <div className="absolute -left-24 top-24 h-72 w-72 rounded-full bg-ag-gold/10 blur-3xl" />
-            <div className="absolute right-0 top-0 h-96 w-96 rounded-full bg-[#1d4ed8]/10 blur-3xl" />
+    <div ref={rootRef} className={paused ? 'tc-page motion-paused' : 'tc-page'}>
+      <a className="skip" href="#main">
+        Skip to content
+      </a>
+      <div ref={progressRef} className="reading-progress" aria-hidden="true" />
+      <header className="site-header">
+        <div className="header-wrap">
+          <Link className="wordmark" to="/" aria-label="Algentrix home">
+            <Wordmark />
+          </Link>
+          <nav aria-label="Case study navigation">
+            <a href="#experience">The product</a>
+            <a href="#workflow">The workflow</a>
+            <a href="#foundation">The build</a>
+          </nav>
+          <div className="header-actions">
+            <button
+              className="motion-toggle"
+              type="button"
+              hidden={!showMotionToggle}
+              aria-pressed={paused}
+              onClick={() => setPaused((value) => !value)}
+            >
+              {paused ? 'Resume motion' : 'Pause motion'}
+            </button>
+            <Link className="contact-link" to="/contact">
+              Let’s talk <span aria-hidden="true">↗</span>
+            </Link>
           </div>
-          <div className="relative mx-auto grid max-w-[1680px] items-center gap-10 lg:grid-cols-[minmax(0,0.42fr)_minmax(0,0.58fr)] lg:gap-12">
-            <Reveal>
-              <p className="font-serif text-[1.85rem] font-semibold tracking-[0.04em] text-ag-gold sm:text-4xl lg:text-[2.6rem]">TradeConnect</p>
-              <p className="mt-3 max-w-lg text-base leading-relaxed text-ag-silver sm:text-lg">
-                WhatsApp-first trading operations for B2B commodity businesses.
-              </p>
-              <h1 className="mt-5 max-w-xl font-serif text-[2.35rem] font-semibold leading-[1.05] text-white sm:text-5xl lg:text-[3.35rem]">
-                Your Business Runs on WhatsApp.
-                <span className="mt-2 block text-ag-off">Your Software Should Work With It.</span>
-              </h1>
-              <p className="mt-6 max-w-lg text-[15px] leading-relaxed text-ag-mist">
-                Connect buyer requirements, supplier sourcing, WhatsApp conversations, Sauda, purchase orders, trucks and trade records in one trading workspace.
-              </p>
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <GoldButton href="#how-it-works">See How TradeConnect Works</GoldButton>
-                <GhostButton href="/contact">Talk to Algentrix</GhostButton>
-              </div>
-            </Reveal>
-            <Reveal className="min-w-0">
-              <figure className="m-0 w-full">
-                <picture>
-                    <source srcSet={`${SHOTS}/tradeconnect-hero.webp?v=2`} type="image/webp" />
-                    <img
-                      src={`${SHOTS}/tradeconnect-hero.jpg?v=2`}
-                    alt="TradeConnect industrial desk: WhatsApp supplier replies, a requirements screen, a purchase order, and a truck leaving for Mumbai"
-                    width={1024}
-                    height={576}
-                    fetchPriority="high"
-                    decoding="async"
-                    className="h-auto w-full rounded-2xl object-contain shadow-[0_16px_36px_-22px_rgba(0,0,0,0.45)]"
-                  />
-                </picture>
-              </figure>
-            </Reveal>
-          </div>
-          <div className="relative mx-auto mt-12 max-w-7xl border-t border-white/10 pt-6">
-            <FlowLine items={heroFlow} />
-          </div>
-        </section>
-
-        <section className="bg-[#f6f3ec] px-5 py-16 text-[#141920] sm:px-8 md:pr-24 lg:py-20">
-          <div className="mx-auto max-w-7xl">
-            <Reveal>
-              <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-ag-gold-d">The desk today</p>
-              <h2 className="mt-4 max-w-3xl font-serif text-4xl font-semibold leading-tight sm:text-5xl">
-                Your Trade Is Probably Spread Across Five Places.
-              </h2>
-            </Reveal>
-            <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-              {problemCards.map((card) => (
-                <article key={card.title} className="border border-black/10 bg-white px-5 py-6">
-                  <card.icon className="h-5 w-5 text-ag-gold-d" strokeWidth={1.75} aria-hidden />
-                  <h3 className="mt-5 font-serif text-2xl">{card.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-[#4d5968]">{card.text}</p>
-                </article>
-              ))}
+        </div>
+      </header>
+      <main id="main">
+        <section className="hero" aria-labelledby="hero-title">
+          <div className="hero-grid" aria-hidden="true" />
+          <div className="hero-glow" aria-hidden="true" />
+          <div className="wrap">
+            <div className="hero-meta">
+              <Link to="/works">SELECTED WORK ↗</Link>
+              <span>COMMODITY TRADING / PRODUCT ENGINEERING</span>
+              <span>ALGENTRIX CASE STUDY</span>
             </div>
-            <p className="mt-10 max-w-2xl font-serif text-2xl leading-snug text-[#141920]">
-              TradeConnect brings the operational workflow together.
-            </p>
-          </div>
-        </section>
-
-        <section className="bg-[#f6f3ec] px-5 py-16 text-[#141920] sm:px-8 md:pr-24 lg:py-20">
-          <div className="mx-auto grid max-w-[1680px] items-center gap-10 lg:grid-cols-[minmax(0,0.42fr)_minmax(0,0.58fr)] lg:gap-12">
-            <Reveal>
-              <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-ag-gold-d">WhatsApp</p>
-              <h2 className="mt-4 max-w-xl font-serif text-4xl font-semibold leading-tight sm:text-5xl">
-                Don't Replace WhatsApp.
-                <span className="block">Connect It.</span>
-              </h2>
-              <p className="mt-6 max-w-lg text-[16px] leading-relaxed text-[#3e4a59]">
-                Your traders don't need another app to talk to suppliers.
-              </p>
-              <p className="mt-3 max-w-lg text-[16px] leading-relaxed text-[#3e4a59]">
-                TradeConnect connects WhatsApp communication to the trading workflow.
-              </p>
-              <ul className="mt-8 space-y-3 text-[16px] leading-relaxed text-[#3e4a59]">
-                {[
-                  'Send RFQs to multiple suppliers',
-                  'Receive supplier rates and availability',
-                  'Compare responses in TradeConnect',
-                ].map((item) => (
-                  <li key={item} className="flex items-center gap-3">
-                    <Check className="h-4 w-4 shrink-0 text-ag-gold-d" strokeWidth={2.25} aria-hidden />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </Reveal>
-            <Reveal className="min-w-0">
-              <figure className="m-0 w-full">
-                <picture>
-                  <source srcSet={`${SHOTS}/tradeconnect-whatsapp.webp`} type="image/webp" />
+            <div className="hero-layout">
+              <div className="hero-copy">
+                <p className="eyebrow">
+                  <span className="status-dot" aria-hidden="true" /> TRADECONNECT
+                </p>
+                <h1 id="hero-title">
+                  <span className="hero-line">Every trade.</span>
+                  <span className="hero-line">
+                    <em>Connected.</em>
+                  </span>
+                </h1>
+                <p className="hero-description">
+                  From buyer demand to delivered.
+                  <br />
+                  A shared workspace for the conversations,
+                  <br className="desktop-break" /> decisions and trucks that move trade forward.
+                </p>
+                <a className="pill-link" href="#experience">
+                  Explore the product <span aria-hidden="true">↓</span>
+                </a>
+              </div>
+              <div className="hero-map" aria-label="TradeConnect connects buyer demand, supplier sourcing and dispatch">
+                <div className="map-orbit orbit-one" aria-hidden="true" />
+                <div className="map-orbit orbit-two" aria-hidden="true" />
+                <svg className="map-lines" viewBox="0 0 460 410" aria-hidden="true">
+                  <path d="M230 204L86 73M230 204L376 73M230 204L376 335M230 204L86 335" />
+                  <circle cx="230" cy="204" r="100" />
+                  <circle cx="230" cy="204" r="151" strokeDasharray="3 9" />
+                </svg>
+                <div className="map-core">
+                  <span aria-hidden="true">↗</span>
+                  <b>TradeConnect</b>
+                  <small>ONE SHARED WORKSPACE</small>
+                </div>
+                <div className="map-node node-buyer">
+                  <span>01 / DEMAND</span>
+                  <b>Buyer requirement</b>
+                  <small>Material · Qty · Destination</small>
+                </div>
+                <div className="map-node node-supplier">
+                  <span>02 / SOURCE</span>
+                  <b>Supplier conversations</b>
+                  <small>WhatsApp · Replies · Terms</small>
+                </div>
+                <div className="map-node node-deal">
+                  <span>03 / CONFIRM</span>
+                  <b>Sauda & PO</b>
+                  <small>The commercial handoff</small>
+                </div>
+                <div className="map-node node-delivery">
+                  <span>04 / DELIVER</span>
+                  <b>Truck dispatch</b>
+                  <small>Assigned → Delivered</small>
+                </div>
+              </div>
+            </div>
+            <div className="hero-stage">
+              <div className="stage-label">
+                <span>A CLOSER LOOK AT THE WORKSPACE</span>
+                <span>DESIGNED AROUND THE TRADE ↗</span>
+              </div>
+              <div className="device-scene">
+                <button
+                  className="browser-device hero-browser"
+                  type="button"
+                  aria-label="Enlarge requirement workspace screenshot"
+                  onClick={(event) =>
+                    openPreview(
+                      `${ASSET}/web-workspace.jpg`,
+                      'Requirement workspace — local application capture',
+                      event.currentTarget,
+                    )
+                  }
+                >
+                  <span className="browser-chrome">
+                    <span aria-hidden="true">● ● ●</span>
+                    <span>TRADECONNECT / REQUIREMENT WORKSPACE</span>
+                    <span aria-hidden="true">⤢</span>
+                  </span>
                   <img
-                    src={`${SHOTS}/tradeconnect-whatsapp.jpg`}
-                    alt="WhatsApp request for steel scrap reaching several suppliers, with their rates compared on the TradeConnect supplier response screen"
+                    src={`${ASSET}/web-workspace.jpg`}
+                    width={1440}
+                    height={920}
+                    alt="Actual TradeConnect supplier workspace with demo supplier offers and quoted rates"
+                  />
+                </button>
+                <button
+                  className="phone-device hero-phone"
+                  type="button"
+                  aria-label="Enlarge responsive dispatch screenshot"
+                  onClick={(event) =>
+                    openPreview(
+                      `${ASSET}/mobile-dispatch.jpg`,
+                      'Dispatch — responsive web application capture',
+                      event.currentTarget,
+                    )
+                  }
+                >
+                  <img
+                    src={`${ASSET}/mobile-dispatch.jpg`}
+                    width={390}
+                    height={844}
+                    alt="Actual TradeConnect mobile truck board showing demo vehicles in transit and loading"
+                  />
+                </button>
+                <div className="floating-note">
+                  <span aria-hidden="true">↔</span>
+                  <div>
+                    <b>Context travels with the trade.</b>
+                    <small>Requirement → Sauda → Dispatch</small>
+                  </div>
+                </div>
+              </div>
+              <p className="reference-note">
+                Actual local application captures using an isolated demo database. Click a screen to explore.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <div className="scope-strip">
+          <div className="wrap scope-grid">
+            <div>
+              <span>THE PRODUCT</span>
+              <b>TradeConnect</b>
+            </div>
+            <div>
+              <span>THE PEOPLE</span>
+              <b>Trading desks · Owners · Transport teams</b>
+            </div>
+            <div>
+              <span>THE EXPERIENCE</span>
+              <b>Responsive web workspace</b>
+            </div>
+            <div>
+              <span>THE FOUNDATION</span>
+              <b>React · .NET · SQL Server</b>
+            </div>
+          </div>
+        </div>
+
+        <section className="section cream" id="overview" aria-labelledby="overview-title">
+          <div className="wrap">
+            <div className="section-label">
+              <span>01 / THE CHALLENGE</span>
+              <span>KEEP THE WHOLE TRADE IN VIEW</span>
+            </div>
+            <div className="editorial-head">
+              <h2 id="overview-title" data-reveal>
+                Trade moves fast.
+                <br />
+                <em>Context should keep up.</em>
+              </h2>
+              <div className="editorial-copy" data-reveal>
+                <p>
+                  A buyer needs material. Suppliers respond with rates and availability. A deal is agreed, a purchase
+                  order is issued and trucks begin moving. Every step creates another handoff.
+                </p>
+                <p>
+                  TradeConnect brings those handoffs into one requirement workspace, with the language and working
+                  habits of Indian commodity traders at its centre.
+                </p>
+              </div>
+            </div>
+            <div className="challenge-grid">
+              <article data-reveal>
+                <span className="card-index">01 / DEMAND</span>
+                <h3>Capture the ask once.</h3>
+                <p>Keep buyer, material, quantity, destination and trade date together as sourcing begins.</p>
+              </article>
+              <article data-reveal>
+                <span className="card-index">02 / CONVERSATION</span>
+                <h3>Keep replies in context.</h3>
+                <p>Connect supplier outreach, counteroffers and proposed quantities to the requirement they serve.</p>
+              </article>
+              <article data-reveal>
+                <span className="card-index">03 / EXECUTION</span>
+                <h3>Carry the deal forward.</h3>
+                <p>Move confirmed commercial terms through PO creation and the delivery stages of each truck.</p>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section className="section experience" id="experience" aria-labelledby="experience-title">
+          <div className="wrap">
+            <div className="section-label">
+              <span>02 / THE PRODUCT EXPERIENCE</span>
+              <span>THE WORK, CONNECTED</span>
+            </div>
+            <div className="section-heading">
+              <h2 id="experience-title" data-reveal>
+                A busy trading desk.
+                <br />
+                <em>A clearer next step.</em>
+              </h2>
+              <p data-reveal>
+                A focused workspace for the people making the calls, agreeing the terms and coordinating delivery.
+                Explore four moments in the product.
+              </p>
+            </div>
+            <div className="web-showcase" data-reveal>
+              <div className="screen-selector" role="group" aria-label="Choose a product reference">
+                {screens.map((item, index) => (
+                  <button
+                    key={item.key}
+                    type="button"
+                    className={index === screenIndex ? 'screen-choice active' : 'screen-choice'}
+                    aria-pressed={index === screenIndex}
+                    onClick={() => setScreenIndex(index)}
+                  >
+                    <span>{item.index}</span>
+                    <b>{item.title}</b>
+                    <small>{item.hint}</small>
+                    <i aria-hidden="true">↗</i>
+                  </button>
+                ))}
+              </div>
+              <div className="web-preview">
+                <button
+                  className="browser-device gallery-browser"
+                  type="button"
+                  aria-label={`Enlarge ${screen.title} screenshot`}
+                  onClick={(event) =>
+                    openPreview(`${ASSET}/web-${screen.key}.jpg`, `${screen.title} — local application capture`, event.currentTarget)
+                  }
+                >
+                  <span className="browser-chrome">
+                    <span aria-hidden="true">● ● ●</span>
+                    <span>{screen.label}</span>
+                    <span aria-hidden="true">⤢</span>
+                  </span>
+                  <img
+                    src={`${ASSET}/web-${screen.key}.jpg`}
+                    width={1440}
+                    height={920}
+                    alt={`Actual local TradeConnect ${screen.title} capture with demo data`}
+                    loading="lazy"
+                  />
+                </button>
+                <div className="screen-caption">
+                  <p aria-live="polite">{screen.description}</p>
+                  <span>APPLICATION CAPTURE / DEMO DATA</span>
+                </div>
+              </div>
+            </div>
+            <div className="feature-grid">
+              <article data-reveal>
+                <span className="feature-icon" aria-hidden="true">
+                  ↗
+                </span>
+                <h3>WhatsApp, in the workflow.</h3>
+                <p>
+                  Send RFQs to selected suppliers from the requirement workspace. Delivery and replies support the
+                  sourcing conversation.
+                </p>
+                <div className="small-tags">
+                  <span>Broadcast</span>
+                  <span>Supplier replies</span>
+                  <span>Negotiation</span>
+                </div>
+              </article>
+              <article data-reveal>
+                <span className="feature-icon" aria-hidden="true">
+                  ◇
+                </span>
+                <h3>Confirm with clarity.</h3>
+                <p>
+                  Review rate, quantity, truck count and freight. Confirming Sauda locks allocation before the purchase
+                  order handoff.
+                </p>
+                <div className="small-tags">
+                  <span>Sauda</span>
+                  <span>Allocation</span>
+                  <span>Purchase order</span>
+                </div>
+              </article>
+              <article data-reveal>
+                <span className="feature-icon" aria-hidden="true">
+                  →
+                </span>
+                <h3>Know the next truck stage.</h3>
+                <p>
+                  Assign transporters and vehicles, capture driver contact and update field progress from assignment
+                  through delivery.
+                </p>
+                <div className="small-tags">
+                  <span>Truck board</span>
+                  <span>Driver contact</span>
+                  <span>Need Attention</span>
+                </div>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section className="section journey cream" id="workflow" aria-labelledby="workflow-title">
+          <div className="wrap">
+            <div className="section-label">
+              <span>03 / THE CONNECTED WORKFLOW</span>
+              <span>FROM THE FIRST ASK TO THE FINAL HANDOFF</span>
+            </div>
+            <div className="section-heading">
+              <h2 id="workflow-title" data-reveal>
+                One requirement.
+                <br />
+                <em>The whole journey.</em>
+              </h2>
+              <p data-reveal>
+                Each decision builds on the one before it. Select a stage to follow the trade through the workspace.
+              </p>
+            </div>
+            <div className="workflow-tabs" role="group" aria-label="Explore trading stages">
+              {steps.map((item, index) => (
+                <button
+                  key={item.tab}
+                  type="button"
+                  className={index === stepIndex ? 'active' : undefined}
+                  aria-pressed={index === stepIndex}
+                  onClick={() => setStepIndex(index)}
+                >
+                  <span>{String(index + 1).padStart(2, '0')}</span>
+                  {item.tab}
+                </button>
+              ))}
+            </div>
+            <div className="workflow-panel">
+              <div>
+                <p className="eyebrow">
+                  {stepNumber} / {step.label}
+                </p>
+                <h3>{step.title}</h3>
+                <p aria-live="polite">{step.description}</p>
+                <div className="small-tags">
+                  {step.tags.map((tag) => (
+                    <span key={tag}>{tag}</span>
+                  ))}
+                </div>
+              </div>
+              <figure className="workflow-visual">
+                <button
+                  className="workflow-image-button"
+                  type="button"
+                  aria-label={`Enlarge ${step.imageTitle} product showcase`}
+                  onClick={(event) =>
+                    openPreview(
+                      `${ASSET}/tradeconnect-${step.image}.webp`,
+                      `${step.imageTitle} — supplied product showcase`,
+                      event.currentTarget,
+                    )
+                  }
+                >
+                  <img
+                    src={`${ASSET}/tradeconnect-${step.image}.webp`}
                     width={1024}
                     height={576}
-                    className="h-auto w-full rounded-2xl object-contain shadow-[0_16px_36px_-22px_rgba(0,0,0,0.45)]"
+                    alt={step.alt}
+                    loading="lazy"
                   />
-                </picture>
+                  <span className="workflow-enlarge" aria-hidden="true">
+                    ⤢
+                  </span>
+                </button>
+                <figcaption>
+                  <span className="workflow-counter" aria-hidden="true">
+                    {stepNumber}
+                  </span>
+                  <span className="workflow-caption">{step.caption}</span>
+                  <span className="workflow-image-hint">CLICK TO ENLARGE ↗</span>
+                </figcaption>
               </figure>
-            </Reveal>
-          </div>
-        </section>
-
-        <section id="how-it-works" className="scroll-mt-24 bg-[#07101c] px-5 py-16 sm:px-8 md:pr-24 lg:py-20">
-          <div className="mx-auto max-w-7xl">
-            <Reveal>
-              <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-ag-gold">The workflow</p>
-              <h2 className="mt-4 max-w-3xl font-serif text-4xl font-semibold leading-tight sm:text-5xl">
-                One Requirement. One Workspace. One Trade.
-              </h2>
-            </Reveal>
-            <ol className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-              {steps.map((step) => (
-                <li key={step.n} className="border border-white/10 bg-white/5 px-5 py-6">
-                  <p className="font-mono text-[12px] text-ag-gold">{step.n}</p>
-                  <h3 className="mt-3 font-serif text-2xl">{step.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-ag-mist">{step.text}</p>
-                </li>
-              ))}
-            </ol>
-          </div>
-        </section>
-
-        <section className="bg-white px-5 py-16 text-[#141920] sm:px-8 md:pr-24 lg:py-20">
-          <div className="mx-auto max-w-[1680px]">
-            <Reveal>
-              <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-ag-gold-d">The product</p>
-              <h2 className="mt-4 max-w-2xl font-serif text-4xl font-semibold leading-tight sm:text-5xl">
-                The trading desk, on one screen.
-              </h2>
-            </Reveal>
-          </div>
-          <ProductShot
-            className="mt-12"
-            label="01 — Requirement Workspace"
-            title="Know Every Requirement. From Demand to Dispatch."
-            text="Create buyer requirements, track supplier progress and see what is pending, confirmed or ready for dispatch."
-            src={`${SHOTS}/tradeconnect-requirements.jpg`}
-            alt="TradeConnect requirements list on a laptop, with filters, buyer quantities, truck counts, and negotiation, PO, and dispatch statuses"
-            width={1024}
-            height={576}
-          />
-          <ProductShot
-            className="mt-16 lg:mt-20"
-            imageLeft
-            label="02 — Supplier Responses"
-            title="Every Supplier Response. In One Place."
-            text="See supplier rates, availability and response status without searching through WhatsApp conversations."
-            points={[
-              'Compare supplier rates',
-              'See availability and response status',
-              'Follow up directly on WhatsApp',
-            ]}
-            src={`${SHOTS}/tradeconnect-supplier-responses.jpg`}
-            alt="TradeConnect supplier responses for a steel scrap requirement, with rates, availability, and a WhatsApp reply"
-            width={1024}
-            height={576}
-          />
-          <ProductShot
-            className="mt-16 lg:mt-20"
-            label="03 — Purchase Order"
-            title="Turn a Confirmed Deal Into a Purchase Order."
-            text="Create the PO with material, quantity, rate, GST, freight and payment terms — connected to the trade."
-            src={`${SHOTS}/tradeconnect-purchase-order.jpg`}
-            alt="TradeConnect purchase order for steel scrap, showing quantity, rate, GST, truck count, and freight"
-            width={1024}
-            height={577}
-          />
-          <ProductShot
-            className="mt-16 lg:mt-20"
-            imageLeft
-            label="04 — Dispatch & Trucks"
-            title="Know Where Every Truck Stands."
-            text="Track loading, in-transit and delivered vehicles with transporter, driver, destination and communication details."
-            src={`${SHOTS}/tradeconnect-dispatch.jpg`}
-            alt="TradeConnect dispatch board with trucks in loading, in transit, and delivered, plus truck details and status"
-            width={1024}
-            height={576}
-          />
-          <ProductShot
-            className="mt-16 lg:mt-20"
-            label="05 — Trade Register"
-            title="Know Your Trade. From Purchase to Profit."
-            text="Keep purchase, sale, transport, payments, documents, weight differences and margin together in one trade record."
-            src={`${SHOTS}/tradeconnect-trade-register.jpg`}
-            alt="TradeConnect trade register for a delivered steel scrap sauda, with quantity, rates, margin, payments, and the truck"
-            width={1024}
-            height={576}
-          />
-        </section>
-
-        <section className="bg-ag-void px-5 py-16 sm:px-8 md:pr-24 lg:py-20">
-          <div className="mx-auto max-w-7xl">
-            <Reveal>
-              <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-ag-gold">Why TradeConnect</p>
-              <h2 className="mt-4 font-serif text-4xl font-semibold leading-tight sm:text-5xl">
-                Not Another ERP.
-                <span className="block">Not Another CRM.</span>
-              </h2>
-              <p className="mt-5 max-w-2xl text-lg text-ag-silver">TradeConnect manages the operational trading workflow.</p>
-            </Reveal>
-            <div className="mt-10 grid gap-5 lg:grid-cols-3">
-              <div className="border border-white/10 bg-white/5 p-7">
-                <h3 className="font-serif text-2xl text-ag-off">Traditional ERP</h3>
-                <ul className="mt-6 space-y-3">
-                  {erpItems.map((item) => (
-                    <li key={item} className="border-b border-white/10 pb-3 text-ag-mist">
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="border border-white/10 bg-white/5 p-7">
-                <h3 className="font-serif text-2xl text-ag-off">CRM</h3>
-                <ul className="mt-6 space-y-3">
-                  {crmItems.map((item) => (
-                    <li key={item} className="border-b border-white/10 pb-3 text-ag-mist">
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="border border-ag-gold/40 bg-[#100e08] p-7">
-                <h3 className="font-serif text-2xl text-ag-gold-l">TradeConnect</h3>
-                <ul className="mt-6 grid gap-3 sm:grid-cols-2">
-                  {tradeItems.map((item) => (
-                    <li key={item} className="border border-ag-gold/15 px-3 py-2 text-sm text-ag-off">
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
             </div>
-          </div>
-        </section>
-
-        <section className="bg-white px-5 py-16 text-[#141920] sm:px-8 md:pr-24 lg:py-20">
-          <div className="mx-auto max-w-7xl">
-            <Reveal>
-              <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-ag-gold-d">Who it is for</p>
-              <h2 className="mt-4 max-w-3xl font-serif text-4xl font-semibold leading-tight sm:text-5xl">
-                Built for trading desks that already run on WhatsApp.
-              </h2>
-            </Reveal>
-            <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {audiences.map((name) => (
-                <article key={name} className="border border-black/10 bg-[#f6f3ec] px-5 py-6">
-                  <h3 className="font-serif text-2xl leading-snug">{name}</h3>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="bg-[#02040a] px-5 py-20 sm:px-8 md:pr-24 lg:py-24">
-          <div className="mx-auto max-w-4xl text-center">
-            <h2 className="font-serif text-4xl font-semibold leading-tight text-white sm:text-5xl">
-              Still Running Your Trading Desk on WhatsApp, Calls and Excel?
-            </h2>
-            <p className="mx-auto mt-5 max-w-2xl text-lg text-ag-silver">
-              See how TradeConnect can fit the way your trading team already works.
+            <p className="workflow-note">
+              Quantity follows truck count × actual load per truck. A proposal or draft Sauda does not allocate demand;
+              confirmation does.
             </p>
-            <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
-              <GoldButton href="/contact">Book a TradeConnect Demo</GoldButton>
-              <GhostButton href="/contact">Talk to Algentrix</GhostButton>
+          </div>
+        </section>
+
+        <section className="section mobile-section" id="mobile" aria-labelledby="mobile-title">
+          <div className="wrap mobile-layout">
+            <div className="mobile-copy">
+              <div className="section-label">
+                <span>04 / AWAY FROM THE DESK</span>
+              </div>
+              <h2 id="mobile-title" data-reveal>
+                The work keeps moving.
+                <br />
+                <em>So can you.</em>
+              </h2>
+              <p data-reveal>
+                A responsive web experience keeps daily calls and dispatch context accessible on smaller screens.
+                Purposeful navigation puts the daily work close at hand.
+              </p>
+              <div className="mobile-benefits">
+                <article data-reveal>
+                  <span>01</span>
+                  <div>
+                    <h3>Make the next call.</h3>
+                    <p>Supplier readiness and callback queues help the desk focus its outreach.</p>
+                  </div>
+                </article>
+                <article data-reveal>
+                  <span>02</span>
+                  <div>
+                    <h3>Follow the handoff.</h3>
+                    <p>Truck and driver details remain connected to the PO and requirement.</p>
+                  </div>
+                </article>
+                <article data-reveal>
+                  <span>03</span>
+                  <div>
+                    <h3>Speak the trader’s language.</h3>
+                    <p>Sauda, MT, parties and freight keep the experience grounded in daily work.</p>
+                  </div>
+                </article>
+              </div>
+              <p className="reference-note">
+                Actual responsive web captures from the local application using demo data. The mobile experience shown
+                is the web app.
+              </p>
+            </div>
+            <div className="mobile-pair" data-reveal>
+              <figure>
+                <button
+                  className="phone-device"
+                  type="button"
+                  aria-label="Enlarge responsive Today's Calls screenshot"
+                  onClick={(event) =>
+                    openPreview(
+                      `${ASSET}/mobile-calls.jpg`,
+                      "Today's Calls — responsive web application capture",
+                      event.currentTarget,
+                    )
+                  }
+                >
+                  <img
+                    src={`${ASSET}/mobile-calls.jpg`}
+                    width={390}
+                    height={844}
+                    alt="Actual mobile web view of demo supplier outreach and availability actions"
+                    loading="lazy"
+                  />
+                </button>
+                <figcaption>01 / DAILY OUTREACH</figcaption>
+              </figure>
+              <figure>
+                <button
+                  className="phone-device"
+                  type="button"
+                  aria-label="Enlarge responsive dispatch screenshot"
+                  onClick={(event) =>
+                    openPreview(
+                      `${ASSET}/mobile-dispatch.jpg`,
+                      'Dispatch — responsive web application capture',
+                      event.currentTarget,
+                    )
+                  }
+                >
+                  <img
+                    src={`${ASSET}/mobile-dispatch.jpg`}
+                    width={390}
+                    height={844}
+                    alt="Actual mobile web truck board with demo driver details and delivery actions"
+                    loading="lazy"
+                  />
+                </button>
+                <figcaption>02 / DISPATCH CONTEXT</figcaption>
+              </figure>
             </div>
           </div>
+        </section>
+
+        <section className="section foundation" id="foundation" aria-labelledby="foundation-title">
+          <div className="wrap">
+            <div className="section-label">
+              <span>05 / BEHIND THE EXPERIENCE</span>
+              <span>BUILT FOR CONNECTED OPERATIONS</span>
+            </div>
+            <div className="section-heading">
+              <h2 id="foundation-title" data-reveal>
+                Focused on the surface.
+                <br />
+                <em>Connected underneath.</em>
+              </h2>
+              <p data-reveal>
+                A responsive React frontend connects to a shared .NET API and SQL Server foundation. Identity, business
+                rules and operational records support the entire trade.
+              </p>
+            </div>
+            <div className="architecture" data-reveal>
+              <div className="architecture-node">
+                <span>THE WORKSPACE</span>
+                <b>React + TypeScript</b>
+                <small>Responsive web · TanStack Query</small>
+              </div>
+              <span className="architecture-arrow" aria-hidden="true">
+                →
+              </span>
+              <div className="architecture-node core-node">
+                <span>THE BUSINESS LOGIC</span>
+                <b>ASP.NET Core 9</b>
+                <small>Identity · Requirements · Sauda · Dispatch</small>
+              </div>
+              <span className="architecture-arrow" aria-hidden="true">
+                →
+              </span>
+              <div className="architecture-node">
+                <span>THE SHARED RECORD</span>
+                <b>SQL Server</b>
+                <small>Entity Framework Core</small>
+              </div>
+            </div>
+            <div className="engineering-grid">
+              <article data-reveal>
+                <span>01 / ACCESS</span>
+                <h3>Responsibility shapes access.</h3>
+                <p>Trading, transport and administration roles guide which tools are available to each person.</p>
+              </article>
+              <article data-reveal>
+                <span>02 / COMMUNICATION</span>
+                <h3>Outreach meets operations.</h3>
+                <p>MSG91 WhatsApp integration supports supplier RFQs and document handoffs when configured.</p>
+              </article>
+              <article data-reveal>
+                <span>03 / EXECUTION</span>
+                <h3>Rules protect the handoff.</h3>
+                <p>
+                  Confirmed allocation and active-trip checks help keep commercial quantities and truck assignments
+                  coherent.
+                </p>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section className="section cream" id="outcomes" aria-labelledby="outcomes-title">
+          <div className="wrap">
+            <div className="section-label">
+              <span>06 / PRODUCT OUTCOMES</span>
+              <span>PRACTICAL VALUE AT EVERY HANDOFF</span>
+            </div>
+            <div className="editorial-head">
+              <h2 id="outcomes-title" data-reveal>
+                Less lost context.
+                <br />
+                <em>More connected work.</em>
+              </h2>
+              <div className="editorial-copy" data-reveal>
+                <p>
+                  The result is a product foundation that connects sourcing, commercial agreement and physical delivery
+                  around the same requirement.
+                </p>
+              </div>
+            </div>
+            <div className="outcome-grid">
+              <article data-reveal>
+                <span aria-hidden="true">↗</span>
+                <div>
+                  <h3>A daily starting point.</h3>
+                  <p>Prioritised calls and supplier availability give the desk an actionable route into the day.</p>
+                </div>
+              </article>
+              <article data-reveal>
+                <span aria-hidden="true">↔</span>
+                <div>
+                  <h3>Conversations with context.</h3>
+                  <p>Supplier responses and negotiation stay attached to the buyer demand behind them.</p>
+                </div>
+              </article>
+              <article data-reveal>
+                <span aria-hidden="true">◇</span>
+                <div>
+                  <h3>A defined commercial handoff.</h3>
+                  <p>Sauda confirmation and PO generation make agreed terms explicit before dispatch begins.</p>
+                </div>
+              </article>
+              <article data-reveal>
+                <span aria-hidden="true">→</span>
+                <div>
+                  <h3>Delivery progress in view.</h3>
+                  <p>Per-PO truck boards connect transport assignment and recorded stages through delivery.</p>
+                </div>
+              </article>
+            </div>
+            <p className="evidence-note">
+              These outcomes describe implemented capabilities. Time savings, revenue growth and efficiency improvements
+              have not been independently measured. All screen values are demo data from an isolated local database.
+            </p>
+          </div>
+        </section>
+
+        <section className="section product-details" aria-labelledby="details-title">
+          <div className="wrap details-layout">
+            <div>
+              <p className="eyebrow">A LITTLE MORE CONTEXT</p>
+              <h2 id="details-title">
+                The details.
+                <br />
+                <em>Made clear.</em>
+              </h2>
+            </div>
+            <div className="faq">
+              <details>
+                <summary>Who is TradeConnect built for?</summary>
+                <p>
+                  Internal teams at Indian commodity trading businesses: sales operators, owners and transport managers
+                  coordinating buyer requirements, supplier sourcing and delivery.
+                </p>
+              </details>
+              <details>
+                <summary>How does WhatsApp fit into the product?</summary>
+                <p>
+                  The requirement workspace supports supplier RFQ broadcasts, replies and commercial document handoffs
+                  through configured messaging services. Provider setup and approved templates govern availability.
+                </p>
+              </details>
+              <details>
+                <summary>What connects Sauda, purchase orders and dispatch?</summary>
+                <p>
+                  They continue from the requirement workspace. Confirming Sauda locks allocation, purchase orders
+                  formalize the commercial terms, and per-PO truck boards support delivery execution.
+                </p>
+              </details>
+              <details>
+                <summary>Does the dispatch board show live GPS?</summary>
+                <p>
+                  The current workflow records field stages such as Loading, In Transit and Delivered. It does not imply
+                  live GPS tracking.
+                </p>
+              </details>
+              <details>
+                <summary>Are these live product screenshots?</summary>
+                <p>
+                  The desktop gallery and mobile views are captured directly from the local TradeConnect application
+                  using an isolated demo database. The journey section uses supplied product showcase images. Mobile
+                  views show the actual responsive web interface.
+                </p>
+              </details>
+            </div>
+          </div>
+        </section>
+
+        <section className="cta" aria-labelledby="cta-title">
+          <div className="wrap">
+            <p className="eyebrow">LET’S BUILD WHAT’S NEXT</p>
+            <h2 id="cta-title" data-reveal>
+              Your business.
+              <br />
+              <em>Better connected.</em>
+            </h2>
+            <div className="cta-bottom">
+              <p>
+                A product built around the way your people work.
+                <br />
+                From the first conversation to the final handoff.
+              </p>
+              <Link className="cta-link" to="/contact">
+                Discuss your project <span aria-hidden="true">↗</span>
+              </Link>
+            </div>
+          </div>
+          <span className="cta-watermark" aria-hidden="true">
+            Algentrix
+          </span>
         </section>
       </main>
-      <Footer />
+      <footer className="site-footer">
+        <div className="wrap footer-inner">
+          <Link className="wordmark" to="/">
+            Algen<span>trix</span>
+          </Link>
+          <span>TradeConnect / Product engineering case study</span>
+          <a href="#main">Back to top ↑</a>
+        </div>
+      </footer>
+      <dialog
+        ref={dialogRef}
+        className="screen-dialog"
+        aria-labelledby="dialog-title"
+        onClose={() => {
+          document.body.style.overflow = ''
+          setPreview(null)
+          openerRef.current?.focus({ preventScroll: true })
+          openerRef.current = null
+        }}
+        onClick={(event) => {
+          const dialog = event.currentTarget
+          const rect = dialog.getBoundingClientRect()
+          if (
+            event.clientX < rect.left ||
+            event.clientX > rect.right ||
+            event.clientY < rect.top ||
+            event.clientY > rect.bottom
+          ) {
+            dialog.close()
+          }
+        }}
+      >
+        <div className="dialog-bar">
+          <h2 id="dialog-title">{preview?.title ?? 'Product reference'}</h2>
+          <button className="dialog-close" type="button" aria-label="Close screen preview" onClick={closePreview}>
+            Close ×
+          </button>
+        </div>
+        <div className="dialog-image-wrap">
+          <img className="dialog-image" src={preview?.src ?? `${ASSET}/web-workspace.jpg`} alt={preview?.title ?? ''} />
+        </div>
+        <p>Product reference with demo data. Escape closes the preview.</p>
+      </dialog>
     </div>
   )
 }

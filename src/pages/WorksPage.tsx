@@ -8,9 +8,20 @@ type WorkItem = {
   flow?: string[]
   detail?: string
   href?: string
+  linkLabel?: string
+  standalonePage?: boolean
 }
 
 const works: WorkItem[] = [
+  {
+    name: 'Tiger Fitness',
+    summary: 'Connected Gym Management — Web & Mobile',
+    flow: ['Onboarding', 'Memberships', 'Billing', 'Coaching', 'Check-in', 'Progress'],
+    detail: 'A React staff workspace and member portal, plus a Flutter member app, connected through one shared .NET API. Explore the web and mobile experiences in the full case study.',
+    href: '/case-studies/tiger-fitness/',
+    linkLabel: 'View case study',
+    standalonePage: true,
+  },
   {
     name: 'TradeConnect',
     summary: 'B2B Commodity Trading Operations',
@@ -39,10 +50,22 @@ function WorkCard({ item }: { item: WorkItem }) {
       <p className="mt-3 text-[16px] leading-relaxed text-ag-silver">{item.summary}</p>
       <p className="mt-6 text-sm leading-relaxed text-ag-mist">{item.detail ?? item.flow?.join(' → ')}</p>
       <p className="mt-8 text-[12px] font-semibold uppercase tracking-[0.14em] text-ag-gold">
-        {item.href ? 'View TradeConnect' : 'Coming soon'}
+        {item.href ? (item.linkLabel ?? `View ${item.name}`) : 'Coming soon'}
       </p>
     </>
   )
+
+  // Standalone case studies load their own document and bundled assets.
+  if (item.href && item.standalonePage) {
+    return (
+      <a
+        href={item.href}
+        className="block border border-ag-gold/30 bg-[#100e08] px-6 py-7 transition-colors hover:border-ag-gold focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ag-gold"
+      >
+        {body}
+      </a>
+    )
+  }
 
   if (item.href) {
     return (
