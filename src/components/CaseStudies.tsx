@@ -36,6 +36,16 @@ const caseStudies: CaseStudy[] = [
     gradient: 'from-ag-gold/15 via-bg-card to-accent-purple/10',
   },
   {
+    client: 'TradeConnect',
+    problem: 'Buyer demand, supplier replies, agreed deals and truck movement live in separate conversations, so the full trade is hard to keep in view.',
+    solution: 'Built a React trading workspace on .NET and SQL Server that keeps WhatsApp sourcing, Sauda, purchase orders, dispatch and the trade register together.',
+    result: 'Web',
+    resultLabel: 'One connected trading workspace',
+    resultIsCapability: true,
+    href: '/case-studies/tradeconnect',
+    gradient: 'from-ag-gold/15 via-bg-card to-accent-purple/10',
+  },
+  {
     client: 'Manufacturing Co.',
     problem: 'Manual data entry across Tally, Excel, and ERP caused delays and errors. Reports took days to compile.',
     solution: 'Built an integrated data pipeline and custom dashboards that sync data in real time and automate reporting.',
