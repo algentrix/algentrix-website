@@ -13,6 +13,16 @@
   status = 200
 
 [[redirects]]
+  from = "/case-studies/workpulse"
+  to = "/case-studies/workpulse/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/case-studies/workpulse/"
+  to = "/case-studies/workpulse/index.html"
+  status = 200
+
+[[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200

@@ -16,6 +16,16 @@ type CaseStudy = {
 
 const caseStudies: CaseStudy[] = [
   {
+    client: 'WorkPulse',
+    problem: 'Teams across sites need a shared view of attendance, assigned work, document readiness and site finances.',
+    solution: 'Built a React web workspace and shared FastAPI platform connecting mobile field workflows with task approvals, payroll review, documents and site accounts.',
+    result: 'Web + Mobile',
+    resultLabel: 'One connected workforce platform',
+    resultIsCapability: true,
+    href: '/case-studies/workpulse/',
+    gradient: 'from-ag-gold/15 via-bg-card to-accent-purple/10',
+  },
+  {
     client: 'Tiger Fitness',
     problem: 'Gym operations and member training need connected workflows across onboarding, memberships, billing, attendance and coaching.',
     solution: 'Built a React team workspace, member web portal and Flutter member app on a shared .NET API, connecting gym operations with workouts, diet plans and recorded progress.',

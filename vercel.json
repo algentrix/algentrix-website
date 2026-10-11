@@ -2,8 +2,25 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "rewrites": [
-    { "source": "/case-studies/tiger-fitness", "destination": "/case-studies/tiger-fitness/index.html" },
-    { "source": "/case-studies/tiger-fitness/", "destination": "/case-studies/tiger-fitness/index.html" },
-    { "source": "/(.*)", "destination": "/index.html" }
+    {
+      "source": "/case-studies/workpulse",
+      "destination": "/case-studies/workpulse/index.html"
+    },
+    {
+      "source": "/case-studies/workpulse/",
+      "destination": "/case-studies/workpulse/index.html"
+    },
+    {
+      "source": "/case-studies/tiger-fitness",
+      "destination": "/case-studies/tiger-fitness/index.html"
+    },
+    {
+      "source": "/case-studies/tiger-fitness/",
+      "destination": "/case-studies/tiger-fitness/index.html"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
   ]
 }

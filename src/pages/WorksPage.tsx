@@ -31,7 +31,11 @@ const works: WorkItem[] = [
   {
     name: 'WorkPulse',
     summary: 'Workforce & Attendance Management',
-    flow: ['Attendance', 'Tasks', 'Payroll', 'Reports', 'Workforce Operations'],
+    flow: ['Attendance', 'Tasks', 'Payroll', 'Documents', 'Site Accounts'],
+    detail: 'A connected workforce platform bringing web oversight and mobile field workflows together across attendance, task approvals, payroll, documents and site finances.',
+    href: '/case-studies/workpulse/',
+    linkLabel: 'View case study',
+    standalonePage: true,
   },
   {
     name: 'Digital Audit',

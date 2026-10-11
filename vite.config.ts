@@ -6,6 +6,10 @@ function serveTigerFitnessCaseStudy(): Plugin {
   const rewrite: Connect.NextHandleFunction = (req, _res, next) => {
     const raw = req.url ?? ''
     const pathOnly = raw.split('?')[0]
+    if (pathOnly === '/case-studies/workpulse' || pathOnly === '/case-studies/workpulse/') {
+      const query = raw.includes('?') ? raw.slice(raw.indexOf('?')) : ''
+      req.url = `/case-studies/workpulse/index.html${query}`
+    }
     if (pathOnly === '/case-studies/tiger-fitness' || pathOnly === '/case-studies/tiger-fitness/') {
       const query = raw.includes('?') ? raw.slice(raw.indexOf('?')) : ''
       req.url = `/case-studies/tiger-fitness/index.html${query}`
