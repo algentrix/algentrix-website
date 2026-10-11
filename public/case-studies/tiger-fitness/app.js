@@ -30,6 +30,35 @@
     const distance = $('.mobile-slide').getBoundingClientRect().width + parseFloat(getComputedStyle(rail).gap);
     rail.scrollBy({ left: distance * Number(button.dataset.scroll), behavior: reduceMotion.matches || paused ? 'instant' : 'smooth' });
   }));
+  function railWheelDistance(event, target) {
+    const dominant = Math.abs(event.deltaX) > Math.abs(event.deltaY) ? event.deltaX : event.deltaY;
+    if (event.deltaMode === 1) return dominant * 40;
+    if (event.deltaMode === 2) return dominant * target.clientWidth;
+    return dominant;
+  }
+  $$('.mobile-rail').forEach(target => {
+    let pending = 0;
+    let timer;
+    target.addEventListener('wheel', event => {
+      const max = target.scrollWidth - target.clientWidth;
+      if (max <= 1 || event.ctrlKey) return;
+      const delta = railWheelDistance(event, target);
+      if (!delta) return;
+      const atStart = target.scrollLeft <= 1 && delta < 0;
+      const atEnd = target.scrollLeft >= max - 1 && delta > 0;
+      if (atStart || atEnd) return;
+      event.preventDefault();
+      pending += delta;
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        const slide = target.querySelector('.mobile-slide');
+        const distance = slide.getBoundingClientRect().width + (parseFloat(getComputedStyle(target).gap) || 0);
+        const steps = Math.sign(pending) * Math.max(1, Math.round(Math.abs(pending) / 120));
+        pending = 0;
+        target.scrollBy({ left: steps * distance, behavior: reduceMotion.matches || paused ? 'instant' : 'smooth' });
+      }, 40);
+    }, { passive: false });
+  });
   const dialog = $('.screen-dialog');
   let opener;
   $$('[data-zoom]').forEach(button => button.addEventListener('click', () => {
