@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
+import { BrowserRouter, Navigate, Routes, Route, useLocation } from 'react-router-dom'
 import { Header } from './components/Header'
 import Hero from './components/Hero'
 import { Problem } from './components/Problem'
@@ -63,11 +63,11 @@ const PAGE_SEO: Record<string, { title: string; description: string; canonical?:
       'Read the Terms & Conditions for using the Algentrix website and WorkPulse attendance and workforce management platform.',
     canonical: `${BASE_URL}/terms`,
   },
-  '/tradeconnect': {
+  '/case-studies/tradeconnect': {
     title: 'TradeConnect — From buyer demand to delivered | Algentrix',
     description:
       'A connected commodity trading workspace for Indian businesses. Explore TradeConnect requirements, WhatsApp sourcing, Sauda, purchase orders and dispatch. Built by Algentrix.',
-    canonical: `${BASE_URL}/tradeconnect`,
+    canonical: `${BASE_URL}/case-studies/tradeconnect`,
   },
   '/works': {
     title: "Works | What We've Built | Algentrix",
@@ -147,7 +147,8 @@ function AppWithSEO() {
         <Route path="/thank-you" element={<ThankYouPage />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms" element={<TermsAndConditions />} />
-        <Route path="/tradeconnect" element={<TradeConnectPage />} />
+        <Route path="/case-studies/tradeconnect" element={<TradeConnectPage />} />
+        <Route path="/tradeconnect" element={<Navigate to="/case-studies/tradeconnect" replace />} />
         <Route path="/works" element={<WorksPage />} />
       </Routes>
     </>

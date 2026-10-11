@@ -16,7 +16,7 @@ const servicesLinks = [
 const companyLinks = [
   { label: 'About', href: '/about' },
   { label: 'Works', href: '/works' },
-  { label: 'TradeConnect', href: '/tradeconnect' },
+  { label: 'TradeConnect', href: '/case-studies/tradeconnect' },
   { label: 'Contact', href: '/contact' },
 ]
 

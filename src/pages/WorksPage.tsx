@@ -26,7 +26,7 @@ const works: WorkItem[] = [
     name: 'TradeConnect',
     summary: 'B2B Commodity Trading Operations',
     flow: ['WhatsApp', 'Supplier Response', 'Sauda', 'PO', 'Dispatch', 'Trade Register'],
-    href: '/tradeconnect',
+    href: '/case-studies/tradeconnect',
   },
   {
     name: 'WorkPulse',

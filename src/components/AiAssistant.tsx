@@ -34,7 +34,7 @@ const siteActions: QuickAction[] = [
 ]
 
 function pageContext(pathname: string): PageContext {
-  if (pathname === '/tradeconnect') {
+  if (pathname === '/case-studies/tradeconnect') {
     return {
       name: 'TradeConnect',
       description: 'WhatsApp-first trading operations for B2B commodity businesses.',

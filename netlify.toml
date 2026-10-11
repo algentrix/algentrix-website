@@ -3,6 +3,16 @@
   publish = "dist"
 
 [[redirects]]
+  from = "/tradeconnect"
+  to = "/case-studies/tradeconnect"
+  status = 301
+
+[[redirects]]
+  from = "/tradeconnect/"
+  to = "/case-studies/tradeconnect"
+  status = 301
+
+[[redirects]]
   from = "/case-studies/tiger-fitness"
   to = "/case-studies/tiger-fitness/index.html"
   status = 200

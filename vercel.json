@@ -1,6 +1,18 @@
 {
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
+  "redirects": [
+    {
+      "source": "/tradeconnect",
+      "destination": "/case-studies/tradeconnect",
+      "permanent": true
+    },
+    {
+      "source": "/tradeconnect/",
+      "destination": "/case-studies/tradeconnect",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     {
       "source": "/case-studies/workpulse",
