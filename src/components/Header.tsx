@@ -85,7 +85,10 @@ export function Header() {
           className="flex items-center gap-2.5 no-underline"
           onClick={() => setIsMenuOpen(false)}
         >
-          <span className="font-serif text-[1.2rem] font-bold text-ag-white">
+          <span
+            className="text-[25px] sm:text-[29px] font-bold leading-none tracking-[-1.7px] text-ag-white"
+            style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
+          >
             Algen<span className="text-ag-gold">trix</span>
           </span>
         </Link>
