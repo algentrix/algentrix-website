@@ -96,7 +96,7 @@ export function Footer() {
 
             <div className="flex gap-3">
               <a
-                href="https://linkedin.com/company/algentrix"
+                href="https://www.linkedin.com/company/algentrix-company/home/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-lg bg-ag-gold/5 border border-ag-gold/10 flex items-center justify-center text-ag-mist transition-all hover:bg-ag-gold hover:text-ag-void hover:shadow-[0_0_20px_rgba(201,168,76,0.3)]"
